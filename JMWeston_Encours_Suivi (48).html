@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detec 26</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:#FAF8F5;color:#0D0B09;min-height:100vh;}
+#acc{min-height:100vh;background:#0D0B09;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;gap:2rem;}
+.acc-logo{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#FAF8F5;}
+.acc-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:-.4rem;}
+.acc-clients{display:flex;flex-direction:column;gap:1.8rem;width:100%;max-width:680px;}
+.acc-cname{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.35);padding-bottom:.4rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:.6rem;}
+.acc-btns{display:flex;gap:.8rem;flex-wrap:wrap;}
+.acc-btn{flex:1;min-width:155px;max-width:220px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:1.3rem 1rem;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.45rem;transition:all .2s;color:#FAF8F5;}
+.acc-btn:hover{background:rgba(255,255,255,.12);transform:translateY(-2px);}
+.acc-btn.wt:hover{border-color:#B89A58;}
+.acc-btn.ws:hover{border-color:#4A8A3A;}
+.acc-btn.rp:hover{border-color:#C41E3A;}
+.acc-icon{font-size:28px;line-height:1;}
+.acc-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;}
+.acc-desc{font-size:10px;color:rgba(255,255,255,.35);line-height:1.6;text-align:center;}
+.acc-cnt{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-top:.1rem;}
+.acc-cnt.wt{background:rgba(184,154,88,.2);color:#D4AA68;}
+.acc-cnt.ws{background:rgba(74,138,58,.2);color:#7ACA5A;}
+.acc-cnt.rp{background:rgba(196,30,58,.2);color:#FF6070;}
+.acc-date{font-size:10px;color:rgba(255,255,255,.18);letter-spacing:.1em;text-transform:uppercase;}
+.pg{display:none;flex-direction:column;min-height:100vh;}
+.pg.on{display:flex;}
+.hdr{height:56px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.hdr.ink{background:#0D0B09;}.hdr.grn{background:#1A3A10;}.hdr.red{background:#8B0000;}
+.hbrand{display:flex;align-items:center;gap:12px;}
+.hlogo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#FAF8F5;}
+.hdiv{width:1px;height:16px;background:rgba(255,255,255,.15);}
+.hsub{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.hbtns{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+.hb{height:26px;padding:0 9px;border:1px solid rgba(255,255,255,.18);border-radius:3px;background:transparent;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;color:rgba(255,255,255,.55);}
+.hb:hover{border-color:rgba(255,255,255,.45);color:#fff;}
+.hb.or{background:#B89A58;border-color:#B89A58;color:#0D0B09;font-weight:600;}
+.hb.gn{background:#2A6A1A;border-color:#2A6A1A;color:#fff;font-weight:600;}
+.hb.rd{background:#C41E3A;border-color:#C41E3A;color:#fff;font-weight:600;}
+.hb.bl{background:#1E4A6B;border-color:#1E4A6B;color:#fff;font-weight:600;}
+.hb:disabled{opacity:.22;cursor:not-allowed;}
+.prog{height:3px;}
+.pf{height:100%;transition:width .5s;}
+.stats{padding:.6rem 2rem;display:flex;align-items:center;border-bottom:1px solid;}
+.stats.ink{background:#F3F0EA;border-color:#D5CFC2;}
+.stats.grn{background:#EDF5E8;border-color:#C0D8B8;}
+.stats.red{background:#FFF0F2;border-color:#F0C0C8;}
+.si{display:flex;flex-direction:column;gap:1px;padding:0 1.1rem;border-right:1px solid #D5CFC2;flex-shrink:0;}
+.si:first-child{padding-left:0;}.si:last-child{border-right:none;}
+.sl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9C9790;}
+.sv{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;}
+.tabs{display:flex;border-bottom:2px solid #D5CFC2;position:sticky;top:56px;z-index:150;padding:0 2rem;margin:0 -2rem 1.4rem;box-shadow:0 2px 6px rgba(0,0,0,.04);flex-wrap:wrap;}
+.tabs.ink{background:#FAF8F5;}.tabs.grn{background:#F2F8EE;}.tabs.red{background:#FFF5F6;}
+.tab{padding:.55rem .9rem;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;background:transparent;color:#9C9790;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0;}
+.tab:hover{color:#0D0B09;}
+.tab.on.ink{color:#0D0B09;border-bottom-color:#B89A58;font-weight:700;}
+.tab.on.grn{color:#1A3A10;border-bottom-color:#4A8A3A;font-weight:700;}
+.tab.on.red{color:#8B0000;border-bottom-color:#C41E3A;font-weight:700;}
+.tdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.tcnt{font-family:'DM Mono',monospace;font-size:10px;background:#E9E5DC;color:#65615A;padding:1px 4px;border-radius:8px;}
+.tab-gear{padding:.55rem .7rem;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;background:transparent;font-size:14px;cursor:pointer;color:#9C9790;flex-shrink:0;}
+.sec{display:none;}.sec.on{display:block;}
+.main{padding:1.4rem 2rem 5rem;}
+.pcrd{border-radius:5px;padding:.7rem 1.1rem;margin-bottom:1.3rem;display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap;}
+.pcrd.ink{background:#F5EDD8;border:1px solid rgba(184,154,88,.22);}
+.pcrd.grn{background:#EAF5E4;border:1px solid rgba(74,138,58,.2);}
+.pcrd.red{background:#FFF0F2;border:1px solid rgba(196,30,58,.2);}
+.plbl{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;}
+.pcrd.ink .plbl{color:#7A6030;}.pcrd.grn .plbl{color:#1A5A10;}.pcrd.red .plbl{color:#8B0000;}
+.prow{display:flex;gap:.6rem;flex-wrap:wrap;flex:1;}
+.ppg{display:flex;flex-direction:column;gap:2px;}
+.ppl{font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;opacity:.6;}
+.pcrd.ink .ppl{color:#7A6030;}.pcrd.grn .ppl{color:#1A5A10;}.pcrd.red .ppl{color:#8B0000;}
+.ppi{height:29px;width:78px;border-radius:3px;padding:0 7px;font-family:'DM Mono',monospace;font-size:13px;background:#fff;text-align:right;}
+.pcrd.ink .ppi{border:1px solid rgba(184,154,88,.3);color:#7A6030;}
+.pcrd.grn .ppi{border:1px solid rgba(74,138,58,.25);color:#1A5A10;}
+.pcrd.red .ppi{border:1px solid rgba(196,30,58,.22);color:#8B0000;}
+.ppi:focus{outline:none;}
+.sbar{display:flex;gap:.5rem;margin-bottom:1.1rem;flex-wrap:wrap;align-items:center;}
+.sin{height:33px;width:210px;border:1px solid #D5CFC2;border-radius:3px;padding:0 9px 0 27px;font-family:'Jost',sans-serif;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%239C9790' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 8px center;}
+.sin:focus{outline:none;border-color:#0D0B09;}
+.ssort{height:33px;padding:0 7px;border:1px solid #D5CFC2;border-radius:3px;font-family:'Jost',sans-serif;font-size:12px;background:#fff;cursor:pointer;}
+.fb{height:25px;padding:0 9px;border-radius:20px;border:1px solid #D5CFC2;background:#fff;color:#9C9790;font-size:11px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;white-space:nowrap;}
+.fb.on{background:#0D0B09;color:#fff;border-color:#0D0B09;}
+.fb.on.grn{background:#1A3A10;border-color:#1A3A10;}
+.fb.on.red{background:#8B0000;border-color:#8B0000;}
+.rcnt{font-size:11px;color:#9C9790;margin-left:auto;font-style:italic;}
+.owrap{display:flex;flex-direction:column;gap:.9rem;}
+.ob{background:#fff;border:1px solid #D5CFC2;border-radius:5px;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.05);}
+.ob:hover{box-shadow:0 3px 14px rgba(0,0,0,.08);}
+.oh{padding:.5rem 1.1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem;}
+.oh.ink{background:#0D0B09;}.oh.grn{background:#1A3A10;}.oh.red{background:#8B0000;}
+.ohl{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;}
+.ocmd{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#fff;}
+.otag{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:500;background:rgba(255,255,255,.1);color:rgba(255,255,255,.65);}
+.otag.late{background:rgba(220,100,50,.28);color:#FFA070;}
+.ohr{display:flex;align-items:center;gap:4px;}
+.oca{padding:2px 8px;border-radius:3px;background:rgba(255,255,255,.12);font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:rgba(255,255,255,.8);}
+.ba{height:24px;padding:0 7px;border:1px solid rgba(255,255,255,.2);border-radius:3px;background:transparent;font-family:'Jost',sans-serif;font-size:9px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;color:rgba(255,255,255,.5);}
+.ba:hover{border-color:rgba(255,255,255,.5);color:#fff;}
+.bd{width:24px;height:24px;border:1px solid rgba(255,255,255,.12);border-radius:3px;background:transparent;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);}
+.bd:hover{border-color:rgba(255,80,80,.5);color:#FF9090;}
+.onote{font-size:11px;padding:.18rem 1.1rem .2rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #E9E5DC;}
+.onote.ink{background:#F3F0EA;}.onote.grn{background:#EDF5E8;}.onote.red{background:#FFF0F2;}
+.onote input{flex:1;border:none;background:transparent;font-family:'Jost',sans-serif;font-size:11px;color:#65615A;font-style:italic;outline:none;}
+.onote input::placeholder{color:#9C9790;}
+.rbar{padding:.26rem 1.1rem;border-bottom:1px solid #E9E5DC;display:flex;align-items:center;gap:6px;}
+.rbar.ink{background:#F3F0EA;}.rbar.grn{background:#EDF5E8;}.rbar.red{background:#FFF0F2;}
+.rdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.rnm{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#65615A;}
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{padding:8px 11px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9C9790;border-bottom:2px solid #D5CFC2;white-space:nowrap;}
+th.thl{text-align:left;}
+th.tk{background:#E6EDF5!important;color:#163352!important;}
+th.tk.z{background:#E9E5DC!important;color:#9C9790!important;opacity:.4;}
+th.tg{background:#D8EDD0!important;color:#1A3A10!important;}
+th.tg.z{background:#E9E5DC!important;color:#9C9790!important;opacity:.4;}
+th.tr{background:#FFE0E4!important;color:#8B0000!important;}
+th.tr.z{background:#E9E5DC!important;color:#9C9790!important;opacity:.4;}
+th.tot{background:#E9E5DC!important;color:#0D0B09!important;}
+td{padding:10px 11px;border-bottom:1px solid #F3F0EA;font-size:14px;text-align:center;vertical-align:middle;}
+td.tdl{text-align:left;}
+.tlib{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;}
+.tq{font-family:'DM Mono',monospace;font-size:15px;font-weight:700;}
+.tq.z{color:#E9E5DC;font-size:13px;font-weight:400;}
+.tq.k{color:#163352;}.tq.g{color:#1A3A10;}.tq.r{color:#8B0000;}
+.ttot{font-family:'DM Mono',monospace;font-size:17px;font-weight:800;color:#0D0B09;}
+.tca{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;}
+.tca.k{color:#7A6030;background:#F5EDD8;}
+.tca.g{color:#1A5A10;background:#EAF5E4;}
+.tca.r{color:#8B0000;background:#FFF0F2;}
+tfoot td{padding:7px 11px;font-family:'DM Mono',monospace;font-size:13px;font-weight:700;border-top:2px solid #B0A898;}
+tfoot td.tfl{font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:#9C9790;text-align:left;}
+table.t-ink tfoot td{background:#F3F0EA!important;}
+table.t-grn tfoot td{background:#EDF5E8!important;}
+table.t-red tfoot td{background:#FFF0F2!important;}
+.hst{margin-top:2rem;padding-top:1.1rem;border-top:1px solid #D5CFC2;}
+.hsthd{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem;flex-wrap:wrap;}
+.hstt{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;font-style:italic;}
+.hstn{font-family:'DM Mono',monospace;font-size:11px;background:#E4EFE8;color:#264D38;padding:2px 7px;border-radius:20px;font-weight:600;}
+.msel{height:25px;padding:0 7px;border:1px solid #D5CFC2;border-radius:3px;font-family:'Jost',sans-serif;font-size:11px;color:#0D0B09;background:#F3F0EA;cursor:pointer;}
+.hca{margin-left:auto;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:2px 8px;border-radius:3px;}
+.hca.k{color:#7A6030;background:#F5EDD8;border:1px solid rgba(184,154,88,.2);}
+.hca.g{color:#1A5A10;background:#EAF5E4;border:1px solid rgba(74,138,58,.18);}
+.hca.r{color:#8B0000;background:#FFF0F2;border:1px solid rgba(196,30,58,.18);}
+.hdone{background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);padding:2px 7px;border-radius:20px;font-size:10px;font-weight:600;}
+.hist-blk .oh.ink{background:#264D38!important;}
+.hist-blk .oh.grn{background:#2A5A1A!important;}
+.hist-blk .oh.red{background:#6B1010!important;}
+.rep-form{background:#FFF5F6;border:1px solid rgba(196,30,58,.18);border-radius:5px;padding:.85rem 1.1rem;margin-bottom:1rem;}
+.rep-ftitle{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#8B0000;margin-bottom:.55rem;padding-bottom:.3rem;border-bottom:1px solid rgba(196,30,58,.15);}
+.rep-fr{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.45rem;}
+.rfg{display:flex;flex-direction:column;gap:3px;flex:1;min-width:85px;}
+.rfl{font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8B0000;opacity:.6;}
+.rfi{height:33px;border:1px solid rgba(196,30,58,.2);border-radius:3px;padding:0 7px;font-family:'Jost',sans-serif;font-size:13px;color:#0D0B09;background:#fff;width:100%;}
+.rfi:focus{outline:none;border-color:#C41E3A;}
+.rfi.mono{font-family:'DM Mono',monospace;}
+.rfi.sz{width:60px;text-align:center;font-family:'DM Mono',monospace;font-size:15px;font-weight:600;}
+.rep-add{height:32px;padding:0 14px;border:none;border-radius:3px;background:#8B0000;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;color:#fff;}
+.rep-add:hover{background:#C41E3A;}
+.rep-prod{background:#FFF0F2;border:1px solid rgba(196,30,58,.18);border-radius:5px;padding:.65rem 1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;}
+.rplbl{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8B0000;white-space:nowrap;}
+.rpi{width:58px;height:34px;border:1.5px solid rgba(196,30,58,.22);border-radius:3px;text-align:center;font-family:'DM Mono',monospace;font-size:15px;font-weight:600;color:#8B0000;background:#fff;}
+.rpi:focus{outline:none;border-color:#C41E3A;}
+.rpi-l{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8B0000;opacity:.5;text-align:center;}
+.rep-pbtn{height:30px;padding:0 12px;border:none;border-radius:3px;background:#C41E3A;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;color:#fff;}
+.rep-pbtn:hover{background:#8B0000;}
+.mbg{position:fixed;inset:0;background:rgba(13,11,9,.62);z-index:400;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
+.modal{background:#FAF8F5;border-radius:5px;width:800px;max-width:96vw;max-height:91vh;overflow-y:auto;box-shadow:0 8px 48px rgba(0,0,0,.15);display:flex;flex-direction:column;}
+.mhdr{padding:.85rem 1.3rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.mhdr.ink{background:#0D0B09;}.mhdr.grn{background:#1A3A10;}.mhdr.red{background:#8B0000;}
+.mhtitle{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:#FAF8F5;}
+.mclose{width:26px;height:26px;border:1px solid rgba(255,255,255,.18);border-radius:3px;background:transparent;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);}
+.mclose:hover{color:#fff;border-color:rgba(255,255,255,.5);}
+.mbody{padding:1.1rem 1.3rem;flex:1;}
+.mrow{display:flex;gap:.8rem;margin-bottom:.85rem;flex-wrap:wrap;}
+.mg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:110px;}
+.mlab{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9C9790;}
+.mi{height:37px;border:1px solid #D5CFC2;border-radius:3px;padding:0 10px;font-family:'Jost',sans-serif;font-size:14px;color:#0D0B09;background:#fff;width:100%;}
+.mi:focus{outline:none;border-color:#0D0B09;}
+.mi.mono{font-family:'DM Mono',monospace;}
+.msep{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.35rem 0 .4rem;border-bottom:1px solid #E6EDF5;margin-bottom:.7rem;color:#163352;}
+.msep.g{border-color:#D0EAC8;color:#1A3A10;}
+.mref{border:1px solid #D5CFC2;border-radius:5px;margin-bottom:.5rem;overflow:hidden;}
+.mref-hd{background:#F3F0EA;padding:.44rem .9rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
+.mref-hd:hover{background:#E9E5DC;}
+.mref-lbl{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#0D0B09;}
+.mref-sm{font-family:'DM Mono',monospace;font-size:11px;padding:1px 5px;border-radius:10px;display:none;}
+.mref-sm.on{display:inline;}
+.mref-sm.k{background:#F5EDD8;color:#7A6030;}
+.mref-sm.g{background:#EAF5E4;color:#1A5A10;}
+.mref-arr{font-size:9px;color:#9C9790;transition:transform .16s;}
+.mref-arr.open{transform:rotate(180deg);}
+.mref-bd{padding:.65rem .9rem;border-top:1px solid #D5CFC2;display:none;}
+.mref-bd.open{display:block;}
+.mtails{display:flex;gap:.5rem;flex-wrap:wrap;}
+.mtg{display:flex;flex-direction:column;gap:3px;align-items:center;}
+.mtl{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+.mtl.k{color:#163352;}.mtl.g{color:#1A3A10;}
+.mti{width:60px;height:40px;border:1.5px solid #D5CFC2;border-radius:3px;text-align:center;font-family:'DM Mono',monospace;font-size:16px;font-weight:600;color:#0D0B09;background:#fff;}
+.mti:focus{outline:none;}
+.mti.has.k{border-color:#163352;background:#E6EDF5;color:#163352;}
+.mti.has.g{border-color:#2A6A1A;background:#E4EFE8;color:#1A3A10;}
+.mfoot{padding:.75rem 1.3rem;border-top:1px solid #D5CFC2;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:#F3F0EA;}
+.mhint{font-size:11px;color:#9C9790;font-style:italic;}
+.mbtns{display:flex;gap:.5rem;}
+.mcancel{height:35px;padding:0 13px;border:1px solid #D5CFC2;border-radius:3px;background:transparent;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;color:#65615A;}
+.mcancel:hover{border-color:#B0A898;color:#0D0B09;}
+.msave{height:35px;padding:0 18px;border:none;border-radius:3px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;color:#FAF8F5;}
+.msave.k{background:#0D0B09;}.msave.k:hover{background:#163352;}
+.msave.g{background:#1A3A10;}.msave.g:hover{background:#2A5A20;}
+.msave.mod{background:#264D38;}
+.clst{display:flex;flex-direction:column;gap:.4rem;max-height:230px;overflow-y:auto;margin-bottom:.45rem;}
+.ci{display:flex;align-items:center;gap:.55rem;padding:.42rem .8rem;border:1px solid #D5CFC2;border-radius:3px;cursor:pointer;background:#fff;user-select:none;}
+.ci:hover,.ci.sel{border-color:#163352;background:#E6EDF5;}
+.ci input[type=checkbox]{accent-color:#163352;width:14px;height:14px;flex-shrink:0;}
+.cin{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:#163352;}
+.cid{font-size:11px;color:#9C9790;}.cir{font-size:11px;color:#65615A;flex:1;}
+.cit{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;}
+.lvref{border:1px solid #D5CFC2;border-radius:5px;margin-bottom:.45rem;overflow:hidden;}
+.lvref-hd{background:#F3F0EA;padding:.35rem .9rem;display:flex;align-items:center;gap:6px;}
+.lvref-nm{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#65615A;}
+.lvtls{display:flex;gap:.38rem;flex-wrap:wrap;padding:.55rem .9rem;}
+.lvtg{display:flex;flex-direction:column;gap:2px;align-items:center;}
+.lvtl{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9C9790;}
+.lvmx{font-family:'DM Mono',monospace;font-size:9px;color:#9C9790;}
+.lvti{width:58px;height:36px;border:1.5px solid #D5CFC2;border-radius:3px;text-align:center;font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#0D0B09;background:#fff;}
+.lvti:focus{outline:none;border-color:#264D38;}
+.lvti.has{border-color:#264D38;background:#E4EFE8;color:#264D38;}
+.lvti:disabled{background:#E9E5DC;color:#9C9790;cursor:not-allowed;}
+.lvfoot{padding:.7rem 1.3rem;border-top:1px solid #D5CFC2;display:flex;justify-content:space-between;align-items:center;background:#F3F0EA;}
+.lvsum{font-size:12px;color:#65615A;}
+.lvsum b{font-family:'DM Mono',monospace;font-size:13px;color:#264D38;}
+.lvbtns{display:flex;gap:.45rem;}
+.btn-bk{height:34px;padding:0 11px;border:1px solid #163352;border-radius:3px;background:transparent;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;color:#163352;}
+.btn-ok{height:34px;padding:0 16px;border:none;border-radius:3px;background:#264D38;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;color:#fff;}
+.btn-nx{height:34px;padding:0 16px;border:none;border-radius:3px;background:#163352;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;color:#fff;}
+.btn-nx:disabled{opacity:.3;cursor:not-allowed;}
+.rmi{display:flex;align-items:center;gap:.7rem;padding:.45rem .8rem;border:1px solid #D5CFC2;border-radius:3px;background:#fff;margin-bottom:.38rem;}
+.rmi-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.rmi-nm{flex:1;font-size:13px;font-weight:600;}
+.rmi-cnt{font-family:'DM Mono',monospace;font-size:11px;color:#9C9790;}
+.btn-del{height:25px;padding:0 8px;border:1px solid rgba(110,30,30,.2);border-radius:3px;background:transparent;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:#6E1E1E;}
+.btn-del:disabled{opacity:.28;cursor:not-allowed;}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;}
+.scard{background:#fff;border:1px solid #D5CFC2;border-radius:5px;padding:.85rem;box-shadow:0 1px 5px rgba(0,0,0,.04);}
+.shd{display:flex;align-items:center;gap:6px;margin-bottom:.6rem;padding-bottom:.4rem;border-bottom:1px solid #E9E5DC;}
+.sdot{width:7px;height:7px;border-radius:50%;}
+.stitle{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.sr{display:flex;justify-content:space-between;align-items:center;padding:2px 0;border-bottom:1px solid #F3F0EA;font-size:12px;}
+.sr:last-child{border-bottom:none;}
+.sr .sl{color:#65615A;}.sr .sv{font-family:'DM Mono',monospace;font-weight:600;}
+.jbtn{position:fixed;bottom:1.2rem;left:1.2rem;z-index:300;height:29px;padding:0 10px;background:#F3F0EA;border:1px solid #D5CFC2;border-radius:20px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:#65615A;box-shadow:0 2px 7px rgba(0,0,0,.07);}
+.jcnt{font-family:'DM Mono',monospace;font-size:10px;background:#E4EFE8;color:#264D38;padding:1px 5px;border-radius:10px;margin-left:4px;}
+.jdrw{position:fixed;bottom:0;left:0;right:0;z-index:350;background:#fff;border-top:2px solid #D5CFC2;box-shadow:0 -4px 20px rgba(0,0,0,.09);max-height:0;overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1);}
+.jdrw.open{max-height:40vh;}
+.jin{padding:.9rem 2rem 1.4rem;height:100%;overflow-y:auto;}
+.jhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem;}
+.jtitle{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;font-style:italic;}
+.jclose{width:23px;height:23px;border:1px solid #D5CFC2;border-radius:3px;background:transparent;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;color:#9C9790;}
+.jitem{padding:.45rem .7rem;border-radius:3px;background:#F3F0EA;margin-bottom:.4rem;border-left:3px solid #264D38;}
+.jitem-hd{display:flex;align-items:center;gap:.55rem;margin-bottom:.2rem;flex-wrap:wrap;}
+.jdt{font-family:'DM Mono',monospace;font-size:10px;color:#9C9790;}
+.jcm{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:#163352;}
+.jtot{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:#264D38;margin-left:auto;background:#E4EFE8;padding:1px 6px;border-radius:10px;}
+.jdet{font-size:11px;color:#65615A;line-height:1.5;}
+.empty{padding:2.2rem;text-align:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#9C9790;background:#fff;border:1px solid #D5CFC2;border-radius:5px;}
+.toast{position:fixed;bottom:1.2rem;right:1.2rem;background:#0D0B09;color:#FAF8F5;padding:.55rem .9rem;border-radius:3px;font-size:12px;font-weight:500;box-shadow:0 4px 18px rgba(0,0,0,.14);transform:translateY(55px);opacity:0;transition:all .24s;z-index:999;}
+.toast.on{transform:translateY(0);opacity:1;}.toast.gn{background:#264D38;}
+@media(max-width:1000px){.sgrid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:700px){.sgrid{grid-template-columns:1fr 1fr;}.main{padding:1rem 1rem 4rem;}.hdr{padding:0 1rem;}.stats{padding:.5rem 1rem;overflow-x:auto;}.si{padding:0 .7rem;}.tabs{padding:0 1rem;margin:0 -1rem 1.1rem;}}
+@media(max-width:480px){.sgrid{grid-template-columns:1fr;}}
+@media print{#acc,.hdr,.prog,.stats,.tabs,.sbar,.pcrd,.ba,.bd,.hst,.msel,.hca,.mbg,.jbtn,.jdrw,.onote,.rep-form,.rep-prod{display:none!important;}body{background:#fff;}.pg.on{display:flex!important;}.sec.on{display:block!important;}.ob{break-inside:avoid;margin-bottom:7px;box-shadow:none;}td{padding:6px 8px;font-size:12px;}th{padding:5px 8px;font-size:9px;}}
+</style>
+</head>
+<body>
+<div id="acc">
+  <div class="acc-logo">Detec 26</div>
+  <div class="acc-sub">Suivi Commandes</div>
+  <div class="acc-clients">
+    <div>
+      <div class="acc-cname">J.M. Weston</div>
+      <div class="acc-btns">
+        <div class="acc-btn wt" onclick="goPg('talons')">
+          <div class="acc-icon">&#x1F529;</div>
+          <div class="acc-title">Talons</div>
+          <div class="acc-desc">CWA &middot; CWB &middot; CWC &middot; CWD<br>CWE &middot; CWF &middot; CWG &middot; CWH &middot; Estampes</div>
+          <div class="acc-cnt wt" id="ac-talons">&#8212; cmd actives</div>
+        </div>
+        <div class="acc-btn ws" onclick="goPg('semelles')">
+          <div class="acc-icon">&#x1F45F;</div>
+          <div class="acc-title">Semelles</div>
+          <div class="acc-desc">CWA Simple &middot; CWB Simple<br>CWB Double &middot; BBT &middot; CWD Simple</div>
+          <div class="acc-cnt ws" id="ac-semelles">&#8212; cmd actives</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="acc-cname">Repetto</div>
+      <div class="acc-btns">
+        <div class="acc-btn rp" onclick="goPg('repetto')">
+          <div class="acc-icon">&#x1FA70;</div>
+          <div class="acc-title">T10</div>
+          <div class="acc-desc">T10 Noir &middot; T10 Cuir &middot; T10 Marron<br>Tailles 34 &rarr; 40/42</div>
+          <div class="acc-cnt rp" id="ac-repetto">&#8212; cmd actives</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="acc-date" id="adate"></div>
+</div>
+<div class="pg" id="pg-talons">
+  <div class="hdr ink">
+    <div class="hbrand"><div class="hlogo">J.M. Weston</div><div class="hdiv"></div><div class="hsub">Talons</div></div>
+    <div class="hbtns">
+      <button class="hb or" onclick="openOM('talons',null)">+ Cmd</button>
+      <button class="hb bl" onclick="openLiv('talons')">&#x1F4E6; Livraison</button>
+      <button class="hb" onclick="doPrint('talons')">&#x1F5A8;</button>
+      <button class="hb" id="u-talons" onclick="doUndo('talons')" disabled>&#x21A9;</button>
+      <button class="hb" onclick="doExport()">&#x1F4E4; Exporter</button>
+      <label class="hb">Importer<input type="file" accept=".json,.html" onchange="doImport(event)" style="display:none"></label>
+      <button class="hb" onclick="doReset()">R&eacute;init.</button>
+      <button class="hb" onclick="goPg('home')">&#x2190; Accueil</button>
+    </div>
+  </div>
+  <div class="prog"><div class="pf" id="pf-talons" style="background:#B89A58;width:0%"></div></div>
+  <div class="stats ink">
+    <div class="si"><div class="sl">Paires</div><div class="sv" id="st-talons-tot">0</div></div>
+    <div class="si"><div class="sl">Actives</div><div class="sv" style="color:#163352" id="st-talons-act">0</div></div>
+    <div class="si"><div class="sl">Livr&eacute;es</div><div class="sv" style="color:#264D38" id="st-talons-don">0</div></div>
+    <div class="si"><div class="sl">Retard</div><div class="sv" style="color:#6E1E1E;cursor:pointer" id="st-talons-late" onclick="setF('talons','late')">0</div></div>
+    <div class="si"><div class="sl">CA cours</div><div class="sv" style="color:#7A6030" id="st-talons-ca">&#8212;</div></div>
+    <div class="si"><div class="sl">CA livr&eacute;</div><div class="sv" style="color:#264D38" id="st-talons-cah">&#8212;</div></div>
+  </div>
+  <div class="main">
+    <div class="sbar">
+      <input class="sin" id="sr-talons" type="text" placeholder="Rechercher&hellip;" oninput="renderCat('talons')">
+      <select class="ssort" id="ss-talons" onchange="renderCat('talons')"><option value="da">Date &#x2191;</option><option value="dd">Date &#x2193;</option><option value="q">Qt&eacute; &#x2193;</option></select>
+      <span class="fb on" id="fb-talons-active" onclick="setF('talons','active')">En cours</span>
+      <span class="fb" id="fb-talons-all" onclick="setF('talons','all')">Toutes</span>
+      <span class="fb" id="fb-talons-late" onclick="setF('talons','late')">&#x26A0; Retard</span>
+      <span class="rcnt" id="rc-talons"></span>
+    </div>
+    <div class="tabs ink" id="tabs-talons"></div>
+    <div class="pcrd ink"><div class="plbl">Prix unitaire Talons (&euro; HT)</div><div class="prow" id="prix-talons"></div></div>
+    <div id="secs-talons"></div>
+  </div>
+</div>
+<div class="pg" id="pg-semelles">
+  <div class="hdr grn">
+    <div class="hbrand"><div class="hlogo">J.M. Weston</div><div class="hdiv"></div><div class="hsub">Semelles</div></div>
+    <div class="hbtns">
+      <button class="hb gn" onclick="openOM('semelles',null)">+ Cmd</button>
+      <button class="hb bl" onclick="openLiv('semelles')">&#x1F4E6; Livraison</button>
+      <button class="hb" onclick="doPrint('semelles')">&#x1F5A8;</button>
+      <button class="hb" id="u-semelles" onclick="doUndo('semelles')" disabled>&#x21A9;</button>
+      <button class="hb" onclick="doExport()">&#x1F4E4; Exporter</button>
+      <button class="hb" onclick="goPg('home')">&#x2190; Accueil</button>
+    </div>
+  </div>
+  <div class="prog"><div class="pf" id="pf-semelles" style="background:#4A8A3A;width:0%"></div></div>
+  <div class="stats grn">
+    <div class="si"><div class="sl">Paires</div><div class="sv" style="color:#1A3A10" id="st-semelles-tot">0</div></div>
+    <div class="si"><div class="sl">Actives</div><div class="sv" style="color:#1A3A10" id="st-semelles-act">0</div></div>
+    <div class="si"><div class="sl">Livr&eacute;es</div><div class="sv" style="color:#264D38" id="st-semelles-don">0</div></div>
+    <div class="si"><div class="sl">Retard</div><div class="sv" style="color:#6E1E1E;cursor:pointer" id="st-semelles-late" onclick="setF('semelles','late')">0</div></div>
+    <div class="si"><div class="sl">CA cours</div><div class="sv" style="color:#1A5A10" id="st-semelles-ca">&#8212;</div></div>
+    <div class="si"><div class="sl">CA livr&eacute;</div><div class="sv" style="color:#264D38" id="st-semelles-cah">&#8212;</div></div>
+  </div>
+  <div class="main">
+    <div class="sbar">
+      <input class="sin" id="sr-semelles" type="text" placeholder="Rechercher&hellip;" oninput="renderCat('semelles')">
+      <select class="ssort" id="ss-semelles" onchange="renderCat('semelles')"><option value="da">Date &#x2191;</option><option value="dd">Date &#x2193;</option><option value="q">Qt&eacute; &#x2193;</option></select>
+      <span class="fb on grn" id="fb-semelles-active" onclick="setF('semelles','active')">En cours</span>
+      <span class="fb" id="fb-semelles-all" onclick="setF('semelles','all')">Toutes</span>
+      <span class="fb" id="fb-semelles-late" onclick="setF('semelles','late')">&#x26A0; Retard</span>
+      <span class="rcnt" id="rc-semelles"></span>
+    </div>
+    <div class="tabs grn" id="tabs-semelles"></div>
+    <div class="pcrd grn"><div class="plbl">Prix unitaire Semelles (&euro; HT)</div><div class="prow" id="prix-semelles"></div></div>
+    <div id="secs-semelles"></div>
+  </div>
+</div>
+<div class="pg" id="pg-repetto">
+  <div class="hdr red">
+    <div class="hbrand"><div class="hlogo">Repetto</div><div class="hdiv"></div><div class="hsub">T10</div></div>
+    <div class="hbtns">
+      <button class="hb rd" onclick="repScrollForm()">+ Cmd</button>
+      <button class="hb" id="u-repetto" onclick="repUndo()" disabled>&#x21A9;</button>
+      <button class="hb" onclick="doExport()">&#x1F4E4; Exporter</button>
+      <button class="hb" onclick="goPg('home')">&#x2190; Accueil</button>
+    </div>
+  </div>
+  <div class="prog"><div class="pf" id="pf-repetto" style="background:#C41E3A;width:0%"></div></div>
+  <div class="stats red">
+    <div class="si"><div class="sl">Command&eacute;</div><div class="sv" style="color:#8B0000" id="st-rep-tot">0</div></div>
+    <div class="si"><div class="sl">Effectu&eacute;</div><div class="sv" style="color:#264D38" id="st-rep-don">0</div></div>
+    <div class="si"><div class="sl">Restant</div><div class="sv" style="color:#C41E3A" id="st-rep-rest">0</div></div>
+    <div class="si"><div class="sl">Commandes</div><div class="sv" style="color:#8B0000" id="st-rep-nb">0</div></div>
+    <div class="si"><div class="sl">CA cours</div><div class="sv" style="color:#7A6030" id="st-rep-ca">&#8212;</div></div>
+  </div>
+  <div class="main">
+    <div class="sbar">
+      <span class="fb on red" id="fb-rep-active" onclick="repSetF('active')">En cours</span>
+      <span class="fb" id="fb-rep-all" onclick="repSetF('all')">Toutes</span>
+      <span class="fb" id="fb-rep-late" onclick="repSetF('late')">&#x26A0; Retard</span>
+    </div>
+    <div class="tabs red" id="tabs-rep">
+      <button class="tab on red" id="rt-noir" onclick="repShowTab('noir',this)"><span class="tdot" style="background:#1A1A1A"></span>T10 Noir</button>
+      <button class="tab" id="rt-cuir" onclick="repShowTab('cuir',this)"><span class="tdot" style="background:#8B6914"></span>T10 Cuir</button>
+      <button class="tab" id="rt-marron" onclick="repShowTab('marron',this)"><span class="tdot" style="background:#6B3A1A"></span>T10 Marron</button>
+      <button class="tab" id="rt-synth" onclick="repShowTab('synth',this)">Synth&egrave;se</button>
+    </div>
+    <div class="pcrd red">
+      <div class="plbl">Prix unitaire Repetto (&euro; HT)</div>
+      <div class="prow">
+        <div class="ppg"><div class="ppl">T10 Noir</div><input type="number" class="ppi" id="rp-noir" min="0" step="0.01" placeholder="0.00" oninput="repSavePx();repStats();repRender();"></div>
+        <div class="ppg"><div class="ppl">T10 Cuir</div><input type="number" class="ppi" id="rp-cuir" min="0" step="0.01" placeholder="0.00" oninput="repSavePx();repStats();repRender();"></div>
+        <div class="ppg"><div class="ppl">T10 Marron</div><input type="number" class="ppi" id="rp-marron" min="0" step="0.01" placeholder="0.00" oninput="repSavePx();repStats();repRender();"></div>
+      </div>
+    </div>
+    <div id="rep-content"></div>
+  </div>
+</div>
+<button class="jbtn" id="jbtn" style="display:none" onclick="toggleJ()">&#x1F4CB; Journal <span class="jcnt" id="jcnt">0</span></button>
+<div class="jdrw" id="jdrw">
+  <div class="jin">
+    <div class="jhd"><div class="jtitle">Journal des livraisons</div><button class="jclose" onclick="toggleJ()">&#x2715;</button></div>
+    <div id="jcontent"><div class="empty" style="font-size:13px;">Aucune livraison.</div></div>
+  </div>
+</div>
+<div class="mbg" id="om-bg" style="display:none" onclick="if(event.target===this)closeOM()"><div class="modal" id="om"></div></div>
+<div class="mbg" id="lv-bg" style="display:none" onclick="if(event.target===this)closeLiv()"><div class="modal" id="lv"></div></div>
+<div class="mbg" id="rf-bg" style="display:none" onclick="if(event.target===this)closeRefM()"><div class="modal" id="rf-modal" style="max-width:540px;"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+// ===== REFS =====
+var TR=[
+  {id:'cwa',lb:'CWA',fl:'Bloc Talon CWA',cl:'#1A3A6B',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwa_n',lb:'CWA Noir',fl:'Bloc Talon CWA Noir',cl:'#2A2520',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwb',lb:'CWB',fl:'Bloc Talon CWB',cl:'#5E3A1A',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwc',lb:'CWC',fl:'Bloc Talon CWC',cl:'#1A5E3A',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwd_n',lb:'CWD Nat.',fl:'Bloc Talon CWD Naturel',cl:'#6B4800',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwd_k',lb:'CWD Noir',fl:'Bloc Talon CWD Noir',cl:'#2A1A0A',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwe_n',lb:'CWE Nat.',fl:'Bloc Talon CWE Naturel',cl:'#6B5010',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwe_k',lb:'CWE Noir',fl:'Bloc Talon CWE Noir',cl:'#3A2A0A',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwf',lb:'CWF',fl:'Bloc Talon CWF Cuir',cl:'#3A1A5E',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwg',lb:'CWG',fl:'Bloc Talon CWG Naturel',cl:'#0A3A5E',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'cwh',lb:'CWH',fl:'Bloc Talon CWH Naturel',cl:'#1A5E1A',ts:['T1','T2','T3','T4','T5','T6']},
+  {id:'esta',lb:'Estampes',fl:'Estampe',cl:'#8B3A1A',ts:['AM Cuir T2','BB Cuir T6','H10mm','H13mm','H16mm','AC Cuir T6']}
+];
+var SR=[
+  {id:'s_cwa',lb:'CWA Simple',fl:'Semelle CWA Simple',cl:'#2A6A1A',ts:['T39','T40','T41','T42','T43','T44','T45','T46']},
+  {id:'s_cwb',lb:'CWB Simple',fl:'Semelle CWB Simple',cl:'#1A3A6B',ts:['T39','T40','T41','T42','T43','T44','T45','T46']},
+  {id:'s_cwbd',lb:'CWB Double',fl:'Semelle CWB Double',cl:'#4A1A6B',ts:['T35','T36','T37','T38','T39','T40','T41','T42','T43','T44','T45','T46']},
+  {id:'s_bbt',lb:'CWB BBT',fl:'Semelle CWB BBT',cl:'#6B3A1A',ts:['T39','T40','T41','T42','T43','T44','T45','T46']},
+  {id:'s_cwd',lb:'CWD Simple',fl:'Semelle CWD Simple',cl:'#1A5E3A',ts:['T35','T36','T37','T38','T39','T40','T41']}
+];
+var RC=[{id:'noir',lb:'T10 Noir',cl:'#1A1A1A'},{id:'cuir',lb:'T10 Cuir',cl:'#8B6914'},{id:'marron',lb:'T10 Marron',cl:'#6B3A1A'}];
+var RS=['34','35','36/37','38/39','40/42'];
+var RI=['34','35','3637','3839','4042'];
+var MOIS=['Janvier','F\u00e9vrier','Mars','Avril','Mai','Juin','Juillet','Ao\u00fbt','Septembre','Octobre','Novembre','D\u00e9cembre'];
+var TODAY=new Date().toISOString().split('T')[0];
+// ===== INIT DATA =====
+var IT=[
+  {id:1,dt:'2025-06-06',cmd:'1000000233',cl:'JM Weston',done:false,refs:{cwa:[0,120,190,0,0,0]}},
+  {id:2,dt:'2025-06-23',cmd:'1000000370',cl:'JM Weston',done:false,refs:{cwc:[0,0,0,50,0,0]}},
+  {id:3,dt:'2025-10-30',cmd:'1000000721',cl:'JM Weston',done:false,refs:{cwa:[0,29,0,0,0,0]}},
+  {id:4,dt:'2025-11-13',cmd:'1000000644',cl:'JM Weston',done:false,refs:{cwa:[0,0,0,11,0,0]}},
+  {id:5,dt:'2025-12-08',cmd:'1000000731',cl:'JM Weston',done:false,refs:{cwa:[0,0,50,0,0,0]}},
+  {id:6,dt:'2025-12-11',cmd:'1000000645',cl:'JM Weston',done:false,refs:{cwc:[0,0,50,0,0,0]}},
+  {id:7,dt:'2025-12-18',cmd:'1000000646',cl:'JM Weston',done:false,refs:{cwd_n:[0,15,10,8,100,0],cwe_n:[0,0,0,0,200,0]}},
+  {id:8,dt:'2026-02-02',cmd:'1000000806',cl:'JM Weston',done:false,refs:{cwa_n:[0,0,0,291,0,0],cwd_n:[0,10,0,30,0,0],cwd_k:[0,0,0,15,0,0],cwe_n:[0,0,45,0,0,0],cwe_k:[0,20,25,0,0,0],cwf:[0,35,160,130,35,0],cwg:[0,0,0,10,0,0]}},
+  {id:9,dt:'2026-02-16',cmd:'1000000912',cl:'JM Weston',done:false,refs:{esta:[18,0,0,0,0,0]}},
+  {id:10,dt:'2026-03-23',cmd:'1000000807',cl:'JM Weston',done:false,refs:{cwa:[0,0,400,0,0,10],cwa_n:[10,170,300,0,30,0],cwb:[15,0,45,0,0,0],cwc:[45,140,125,0,0,0],cwd_n:[0,10,0,30,0,0],cwd_k:[0,0,0,15,0,0],cwe_k:[0,20,25,0,0,0],cwf:[0,35,70,20,35,0],cwg:[0,0,0,10,0,0]}},
+  {id:11,dt:'2026-04-01',cmd:'1000000967',cl:'JM Weston',done:false,refs:{cwa:[0,430,652,400,50,0]}},
+  {id:12,dt:'2026-04-08',cmd:'1000000850',cl:'JM Weston',done:false,refs:{cwa:[10,0,510,200,40,20],cwb:[10,0,0,150,0,0],cwc:[30,140,180,0,0,0],cwd_n:[0,0,0,60,0,0],cwd_k:[0,10,110,90,0,0],cwe_n:[0,10,0,90,0,0],cwf:[0,0,240,0,0,0],cwh:[0,20,20,0,0,0]}},
+  {id:13,dt:'2026-04-13',cmd:'1000000931',cl:'JM Weston',done:false,refs:{cwb:[0,0,0,250,0,0],cwc:[10,100,110,0,0,0],cwd_n:[0,0,0,40,0,0],cwd_k:[0,10,100,80,0,0],cwe_n:[0,10,0,140,0,0],cwf:[0,0,200,0,0,0],cwh:[0,20,20,0,0,0],esta:[0,0,0,0,23,0]}},
+  {id:14,dt:'2026-04-15',cmd:'1000000903',cl:'JM Weston',done:false,refs:{cwa:[0,115,490,220,30,0],cwb:[10,0,10,20,0,0],cwc:[50,160,150,20,0,0],cwd_n:[0,0,0,10,0,0],cwd_k:[0,10,20,20,0,0],cwe_n:[0,20,0,20,0,0],cwe_k:[0,0,41,0,0,0],cwf:[0,30,90,60,0,0],cwg:[0,0,1,0,0,0],esta:[0,0,20,0,0,0]}},
+  {id:15,dt:'2026-04-20',cmd:'1000000978',cl:'JM Weston',done:false,refs:{cwa:[0,0,280,70,30,20],cwb:[0,0,0,250,0,0],cwc:[10,100,110,0,0,0],cwd_n:[0,0,0,40,0,0],cwd_k:[0,10,100,80,0,0],cwe_n:[0,10,0,70,0,0],cwf:[0,0,200,0,0,0],cwg:[0,0,1,0,0,0],cwh:[0,20,20,0,0,0]}},
+  {id:16,dt:'2026-05-04',cmd:'1000001083',cl:'JM Weston',done:false,refs:{cwa:[10,0,0,0,0,0],cwb:[10,0,70,0,0,0],cwc:[120,230,100,80,0,0],cwe_k:[0,0,60,0,0,0],cwf:[0,0,0,80,0,0],cwg:[0,0,20,0,0,0],esta:[0,10,0,30,0,10]}},
+  {id:17,dt:'2026-05-04',cmd:'1000001084',cl:'JM Weston',done:false,refs:{cwe_n:[0,0,0,0,0,10],cwe_k:[0,0,0,0,0,10]}},
+  {id:18,dt:'2026-06-08',cmd:'1000000968',cl:'JM Weston',done:false,refs:{cwa:[0,430,850,400,50,0]}}
+];
+var IS=[
+  {id:101,dt:'2026-04-22',cmd:'1000001087',cl:'JM Weston',done:false,refs:{s_cwd:[5,39,47,44,33,18,4]}},
+  {id:102,dt:'2026-04-22',cmd:'1000001090',cl:'JM Weston',done:false,refs:{s_cwa:[12,55,91,107,81,52,26,7]}},
+  {id:103,dt:'2026-04-22',cmd:'1000001091',cl:'JM Weston',done:false,refs:{s_cwb:[5,29,40,42,28,21,9,1]}},
+  {id:104,dt:'2026-04-22',cmd:'1000001089',cl:'JM Weston',done:false,refs:{s_cwbd:[2,21,27,26,25,44,63,68,51,30,14,5]}},
+  {id:105,dt:'2026-04-22',cmd:'1000001088',cl:'JM Weston',done:false,refs:{s_bbt:[4,16,34,38,31,18,10,1]}}
+];
+var IR={
+  noir:[
+    {id:100,dt:'2026-04-10',cl:'R',cmd:'145324',orig:[0,0,0,90,180],rest:[0,0,0,90,180],done:[0,0,0,0,0]},
+    {id:101,dt:'2026-05-07',cl:'R',cmd:'145454',orig:[0,540,540,720,360],rest:[0,540,540,720,360],done:[0,0,0,0,0]}
+  ],
+  cuir:[{id:100,dt:'2026-05-20',cl:'Repetto',cmd:'145492',orig:[0,0,180,0,180],rest:[0,0,180,0,180],done:[0,0,0,0,0]}],
+  marron:[]
+};
+// ===== STATE =====
+function dc(s){return s.map(function(o){var r={};Object.keys(o.refs).forEach(function(k){r[k]=o.refs[k].slice();});return Object.assign({},o,{refs:r});});}
+function dcR(s){var o={};['noir','cuir','marron'].forEach(function(c){o[c]=s[c].map(function(x){return{id:x.id,dt:x.dt,cl:x.cl,cmd:x.cmd,orig:x.orig.slice(),rest:x.rest.slice(),done:x.done.slice()};});});return o;}
+var D,P,J,N,rD,rP;
+try{D=JSON.parse(localStorage.getItem('d26v1')||'null');}catch(e){D=null;}
+try{P=JSON.parse(localStorage.getItem('d26pv1')||'null');}catch(e){P=null;}
+try{J=JSON.parse(localStorage.getItem('d26jv1')||'[]');}catch(e){J=[];}
+try{N=JSON.parse(localStorage.getItem('d26nv1')||'{}');}catch(e){N={};}
+try{rD=JSON.parse(localStorage.getItem('d26rv1')||'null');}catch(e){rD=null;}
+try{rP=JSON.parse(localStorage.getItem('d26rpv1')||'null');}catch(e){rP=null;}
+if(!D)D={talons:dc(IT),semelles:dc(IS)};
+if(!P)P={talons:{},semelles:{}};
+if(!rD)rD=dcR(IR);
+if(!rP)rP={noir:0,cuir:0,marron:0};
+var snp={talons:null,semelles:null,rep:null};
+var curT={talons:null,semelles:null};
+var curF={talons:'active',semelles:'active'};
+var repT='noir',repF='active';
+var repNI={noir:102,cuir:101,marron:100};
+function sv(){try{localStorage.setItem('d26v1',JSON.stringify(D));}catch(e){}}
+function spx(){try{localStorage.setItem('d26pv1',JSON.stringify(P));}catch(e){}}
+function sj(){try{localStorage.setItem('d26jv1',JSON.stringify(J));}catch(e){}}
+function sn(){try{localStorage.setItem('d26nv1',JSON.stringify(N));}catch(e){}}
+function rvs(){try{localStorage.setItem('d26rv1',JSON.stringify(rD));}catch(e){}}
+function repSavePx(){rP.noir=parseFloat(document.getElementById('rp-noir').value)||0;rP.cuir=parseFloat(document.getElementById('rp-cuir').value)||0;rP.marron=parseFloat(document.getElementById('rp-marron').value)||0;try{localStorage.setItem('d26rpv1',JSON.stringify(rP));}catch(e){}}
+// ===== UTILS =====
+function ta(a){return(a||[]).reduce(function(s,v){return s+v;},0);}
+function ot(o){return Object.values(o.refs).reduce(function(s,q){return s+ta(q);},0);}
+function fmt(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'\u00a0\u20ac';}
+function fd(d){if(!d)return'\u2014';var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function px(cat,rid){return parseFloat((P[cat]||{})[rid])||0;}
+function rpx(c){return parseFloat(rP[c])||0;}
+function GR(cat,rid){return(cat==='talons'?TR:SR).find(function(r){return r.id===rid;});}
+function GRS(cat){return cat==='talons'?TR:SR;}
+function toast(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast on '+(t||'');setTimeout(function(){e.className='toast';},2600);}
+function snap(cat){snp[cat]=JSON.stringify(cat==='rep'?rD:D[cat]);var b=document.getElementById('u-'+(cat==='rep'?'repetto':cat));if(b)b.disabled=false;}
+function doUndo(cat){if(!snp[cat]){toast('Rien \u00e0 annuler.');return;}D[cat]=JSON.parse(snp[cat]);snp[cat]=null;var b=document.getElementById('u-'+cat);if(b)b.disabled=true;sv();buildCat(cat);renderCat(cat);stats(cat);toast('Annul\u00e9.','gn');}
+function repUndo(){if(!snp.rep){toast('Rien \u00e0 annuler.');return;}rD=JSON.parse(snp.rep);snp.rep=null;var b=document.getElementById('u-repetto');if(b)b.disabled=true;rvs();repRender();repStats();toast('Annul\u00e9.','gn');}
+// ===== NAVIGATION =====
+function goPg(name){
+  document.getElementById('acc').style.display='none';
+  document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('jbtn').style.display='none';
+  if(name==='home'){document.getElementById('acc').style.display='flex';updAcc();return;}
+  document.getElementById('pg-'+name).classList.add('on');
+  document.getElementById('jbtn').style.display='flex';
+  var d=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  if(name==='repetto'){document.getElementById('rp-noir').value=rP.noir||'';document.getElementById('rp-cuir').value=rP.cuir||'';document.getElementById('rp-marron').value=rP.marron||'';repShowTab('noir',document.getElementById('rt-noir'));repStats();}
+  else{if(!curT[name])curT[name]=GRS(name)[0].id;buildCat(name);renderCat(name);stats(name);}
+  updJCnt();
+}
+function updAcc(){
+  ['talons','semelles'].forEach(function(cat){var n=D[cat].filter(function(o){return !o.done;}).length;var e=document.getElementById('ac-'+cat);if(e)e.textContent=n+' cmd active'+(n!==1?'s':'');});
+  var rn=rD.noir.concat(rD.cuir).concat(rD.marron).filter(function(o){return o.rest.some(function(r){return r>0;});}).length;
+  var re=document.getElementById('ac-repetto');if(re)re.textContent=rn+' cmd active'+(rn!==1?'s':'');
+}
+// ===== WESTON BUILD =====
+function buildCat(cat){
+  var refs=GRS(cat);var cl=cat==='talons'?'k':'g';
+  var th='';
+  refs.forEach(function(R){
+    var cnt=D[cat].filter(function(o){return !o.done&&o.refs[R.id]&&ta(o.refs[R.id])>0;}).length;
+    var on=R.id===curT[cat];
+    th+='<button class="tab'+(on?' on '+cat:'')+'" onclick="showTab(\''+cat+'\',\''+R.id+'\',this)"><span class="tdot" style="background:'+R.cl+'"></span>'+R.lb+(cnt?'<span class="tcnt">'+cnt+'</span>':'')+'</button>';
+  });
+  th+='<button class="tab'+(curT[cat]==='sy'?' on '+cat:'')+'" onclick="showTab(\''+cat+'\',\'sy\',this)">Synth\u00e8se</button>';
+  th+='<button class="tab-gear" onclick="openRefM(\''+cat+'\')" title="G\u00e9rer r\u00e9f\u00e9rences">\u2699</button>';
+  document.getElementById('tabs-'+cat).innerHTML=th;
+  var ph='';
+  refs.forEach(function(R){ph+='<div class="ppg"><div class="ppl">'+R.lb+'</div><input type="number" class="ppi" id="pi-'+cat+'-'+R.id+'" min="0" step="0.01" placeholder="0.00" value="'+((P[cat]||{})[R.id]||'')+'" oninput="if(!P[\''+cat+'\'])P[\''+cat+'\']={}; P[\''+cat+'\'][\''+R.id+'\']=parseFloat(this.value)||0; spx(); stats(\''+cat+'\'); renderCat(\''+cat+'\');"></div>';});
+  document.getElementById('prix-'+cat).innerHTML=ph;
+  var sh='';
+  refs.forEach(function(R){sh+='<div id="s-'+cat+'-'+R.id+'" class="sec'+(R.id===curT[cat]?' on':'')+'"><div id="c-'+cat+'-'+R.id+'"></div></div>';});
+  sh+='<div id="s-'+cat+'-sy" class="sec'+(curT[cat]==='sy'?' on':'')+'"><div id="c-'+cat+'-sy"></div></div>';
+  document.getElementById('secs-'+cat).innerHTML=sh;
+}
+function showTab(cat,tab,el){
+  document.querySelectorAll('#secs-'+cat+' .sec').forEach(function(s){s.classList.remove('on');});
+  document.querySelectorAll('#tabs-'+cat+' .tab').forEach(function(t){t.classList.remove('on');t.classList.remove(cat);});
+  var sec=document.getElementById('s-'+cat+'-'+tab);if(sec)sec.classList.add('on');
+  if(el){el.classList.add('on');el.classList.add(cat);}
+  curT[cat]=tab;
+  if(tab==='sy')renderSy(cat);else renderRef(cat,tab);
+  stats(cat);
+}
+function renderCat(cat){if(curT[cat]==='sy')renderSy(cat);else if(curT[cat])renderRef(cat,curT[cat]);}
+function setF(cat,f){
+  curF[cat]=f;
+  ['active','all','late'].forEach(function(x){var e=document.getElementById('fb-'+cat+'-'+x);if(e)e.className='fb'+(x===f?' on'+(cat==='semelles'?' grn':''):'');});
+  renderCat(cat);
+}
+function getFilt(cat,rid){
+  var q=(document.getElementById('sr-'+cat).value||'').trim().toLowerCase();
+  var s=document.getElementById('ss-'+cat).value||'da';
+  var f=curF[cat];
+  var list=D[cat].filter(function(o){
+    if(!o.refs[rid]||ta(o.refs[rid])===0)return false;
+    if(f==='active'&&o.done)return false;
+    if(f==='late'&&(o.done||o.dt>=TODAY))return false;
+    if(q&&o.cmd.toLowerCase().indexOf(q)===-1)return false;
+    return true;
+  });
+  list.sort(function(a,b){if(s==='dd')return b.dt.localeCompare(a.dt);if(s==='q')return ta(b.refs[rid]||[])-ta(a.refs[rid]||[]);return a.dt.localeCompare(b.dt);});
+  return list;
+}
+function renderRef(cat,rid){
+  var R=GR(cat,rid);if(!R)return;
+  var c=document.getElementById('c-'+cat+'-'+rid);if(!c)return;
+  var cl=cat==='talons'?'k':'g';
+  var filt=getFilt(cat,rid);
+  var done=D[cat].filter(function(o){return o.done&&o.refs[rid]&&ta(o.refs[rid])>0;});
+  var rce=document.getElementById('rc-'+cat);if(rce)rce.textContent=filt.length+' commande'+(filt.length!==1?'s':'')+' affich\u00e9e'+(filt.length!==1?'s':'');
+  var html=!filt.length?'<div class="empty">Aucune commande.</div>':'<div class="owrap">'+filt.map(function(o){return blk(cat,o,R,false);}).join('')+'</div>';
+  var mo={};done.forEach(function(o){if(o.dt)mo[o.dt.substr(0,7)]=true;});
+  var ml=Object.keys(mo).sort().reverse();
+  var sel='<select class="msel" id="hm-'+cat+'-'+rid+'" onchange="rfHist(\''+cat+'\',\''+rid+'\')"><option value="all">Tous</option>';
+  ml.forEach(function(m){var p=m.split('-');sel+='<option value="'+m+'">'+MOIS[parseInt(p[1])-1]+' '+p[0]+'</option>';});sel+='</select>';
+  var hr=bldHist(cat,rid,R);
+  html+='<div class="hst"><div class="hsthd"><span class="hstt">Historique</span><span class="hstn">'+done.length+'</span>'+sel+'<span class="hca '+cl+'" id="hca-'+cat+'-'+rid+'">'+(hr.ca?'\uD83D\uDCB0 '+fmt(hr.ca):'\u2014')+'</span></div><div id="hb-'+cat+'-'+rid+'">'+hr.html+'</div></div>';
+  c.innerHTML=html;
+}
+function blk(cat,o,R,isH){
+  var cl=cat==='talons'?'k':'g';var ohcl='oh '+(cat==='talons'?'ink':'grn');var rbcl='rbar '+(cat==='talons'?'ink':'grn');var notecl='onote '+(cat==='talons'?'ink':'grn');var tblcl='t-'+(cat==='talons'?'ink':'grn');
+  var qtys=o.refs[R.id]||[];while(qtys.length<R.ts.length)qtys.push(0);
+  var tot=ta(qtys);if(!tot&&isH)return'';
+  var p=px(cat,R.id);var ca=p?tot*p:0;var late=!isH&&o.dt<TODAY;
+  var cu=R.ts.map(function(_,i){return qtys[i]>0;});
+  var nk='n_'+cat+'_'+o.id;var nv=((N||{})[nk]||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+  var h='<div class="ob"><div class="'+ohcl+'"><div class="ohl"><span class="ocmd">'+o.cmd+'</span><span class="otag'+(late?' late':'')+'">'+(late?'\u26A0 ':'')+fd(o.dt)+'</span></div><div class="ohr">'+(p&&ca?'<span class="oca">'+fmt(ca)+'</span>':'')+(isH?'<span class="hdone">\u2713 Livr\u00e9</span>':'<button class="ba" onclick="openOM(\''+cat+'\','+o.id+')">&#9998;</button><button class="ba" onclick="dupO(\''+cat+'\','+o.id+')">&#8680;</button><button class="bd" onclick="delO(\''+cat+'\','+o.id+')">&#10005;</button>')+'</div></div>';
+  if(!isH){h+='<div class="'+notecl+'"><span>\uD83D\uDCDD</span><input placeholder="Note\u2026" value="'+nv+'" onchange="N[\''+nk+'\']=this.value;sn()"></div>';}
+  h+='<div class="'+rbcl+'"><span class="rdot" style="background:'+R.cl+'"></span><span class="rnm">'+R.fl+'</span></div>';
+  var thr=R.ts.map(function(t,i){return'<th class="'+(cat==='talons'?'tk':'tg')+(cu[i]?'':' z')+'">'+t+'</th>';}).join('');
+  h+='<div class="tw"><table class="'+tblcl+'"><thead><tr><th class="thl" style="min-width:170px;">R\u00e9f\u00e9rence</th>'+thr+'<th class="tot">Total</th>'+(p?'<th class="tca">CA</th>':'')+'</tr></thead><tbody><tr><td class="tdl"><span class="tlib">'+R.fl+'</span></td>';
+  R.ts.forEach(function(_,i){var v=qtys[i];h+='<td><span class="tq '+(v?cl:'z')+'">'+(v||'\u2014')+'</span></td>';});
+  h+='<td><span class="ttot">'+tot+'</span></td>'+(p?'<td class="tca '+cl+'">'+fmt(ca)+'</td>':'');
+  h+='</tr></tbody><tfoot><tr><td class="tfl">Total</td>';
+  R.ts.forEach(function(_,i){var v=qtys[i];h+='<td class="ftq '+(v?cl:'z')+'">'+v+'</td>';});
+  h+='<td class="ftot">'+tot+'</td>'+(p?'<td class="ftca '+cl+'">'+fmt(ca)+'</td>':'');
+  h+='</tr></tfoot></table></div></div>';
+  return h;
+}
+function bldHist(cat,rid,R){
+  var p=px(cat,rid);
+  var done=D[cat].filter(function(o){return o.done&&o.refs[rid]&&ta(o.refs[rid])>0;});
+  var fm=function(){var s=document.getElementById('hm-'+cat+'-'+rid);return s?s.value:'all';}();
+  if(fm&&fm!=='all')done=done.filter(function(o){return o.dt&&o.dt.substr(0,7)===fm;});
+  if(!done.length)return{html:'<div class="empty">Aucune commande livr\u00e9e.</div>',ca:0};
+  var ca=0;var bl=done.map(function(o){var c=p?ta(o.refs[rid]||[])*p:0;ca+=c;return blk(cat,o,R,true);}).join('');
+  return{html:'<div class="owrap hist-blk">'+bl+'</div>',ca:ca};
+}
+function rfHist(cat,rid){var R=GR(cat,rid);if(!R)return;var res=bldHist(cat,rid,R);var e=document.getElementById('hb-'+cat+'-'+rid);if(e)e.innerHTML=res.html;var hca=document.getElementById('hca-'+cat+'-'+rid);if(hca)hca.textContent=res.ca?'\uD83D\uDCB0 '+fmt(res.ca):'\u2014';}
+function renderSy(cat){
+  var refs=GRS(cat);var cl=cat==='talons'?'k':'g';
+  var cards=refs.map(function(R){var p=px(cat,R.id);var act=D[cat].filter(function(o){return !o.done&&o.refs[R.id]&&ta(o.refs[R.id])>0;});var don=D[cat].filter(function(o){return o.done&&o.refs[R.id]&&ta(o.refs[R.id])>0;});var tA=act.reduce(function(a,o){return a+ta(o.refs[R.id]);},0);var cA=p?tA*p:0;return'<div class="scard"><div class="shd"><div class="sdot" style="background:'+R.cl+'"></div><div class="stitle">'+R.fl+'</div></div><div class="sr"><span class="sl">Actives</span><span class="sv">'+act.length+'</span></div><div class="sr"><span class="sl">Paires</span><span class="sv">'+tA+'</span></div><div class="sr"><span class="sl">Livr\u00e9es</span><span class="sv" style="color:#264D38">'+don.length+'</span></div>'+(p&&cA?'<div class="sr"><span class="sl">CA</span><span class="sv">'+fmt(cA)+'</span></div>':'')+'</div>';}).join('');
+  var e=document.getElementById('c-'+cat+'-sy');if(!e)return;
+  var lbl=cat==='talons'?'J.M. Weston \u2014 Talons':'J.M. Weston \u2014 Semelles';
+  e.innerHTML='<div style="background:#fff;border:1px solid #D5CFC2;border-radius:5px;padding:1rem 1.3rem;margin-bottom:1rem;font-family:\'Cormorant Garamond\',serif;font-size:20px;font-weight:500;font-style:italic;">'+lbl+'</div><div class="sgrid">'+cards+'</div>';
+}
+function stats(cat){
+  var gT=0,gA=0,gD=0,gCA=0,gCAH=0,gLate=0,gPA=0,gPD=0;
+  D[cat].forEach(function(o){var t=ot(o);gT+=t;if(o.done){gD++;gPD+=t;Object.keys(o.refs).forEach(function(rid){var p=px(cat,rid);if(p)gCAH+=ta(o.refs[rid])*p;});}else{gA++;gPA+=t;if(o.dt&&o.dt<TODAY)gLate++;Object.keys(o.refs).forEach(function(rid){var p=px(cat,rid);if(p)gCA+=ta(o.refs[rid])*p;});}});
+  function se(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  se('st-'+cat+'-tot',gT);se('st-'+cat+'-act',gA);se('st-'+cat+'-don',gD);se('st-'+cat+'-late',gLate);
+  se('st-'+cat+'-ca',gCA>0?fmt(gCA):'\u2014');se('st-'+cat+'-cah',gCAH>0?fmt(gCAH):'\u2014');
+  var pf=document.getElementById('pf-'+cat);if(pf)pf.style.width=((gPA+gPD)>0?Math.round(gPD/(gPA+gPD)*100):0)+'%';
+  GRS(cat).forEach(function(R){var tab=document.querySelector('#tabs-'+cat+' button[onclick*="\''+R.id+'\'"]');if(!tab)return;var cnt=D[cat].filter(function(o){return !o.done&&o.refs[R.id]&&ta(o.refs[R.id])>0;}).length;var ex=tab.querySelector('.tcnt');if(cnt){if(!ex){var s=document.createElement('span');s.className='tcnt';tab.appendChild(s);}tab.querySelector('.tcnt').textContent=cnt;}else if(ex)ex.remove();});
+}
+// ===== ORDER MODAL =====
+function openOM(cat,oid){
+  var refs=GRS(cat);var cl=cat==='talons'?'k':'g';var hcl=cat==='talons'?'ink':'grn';
+  var o=oid!==null?D[cat].find(function(x){return x.id===oid;}):null;var isE=!!o;
+  var refSec=refs.map(function(R){var ex=isE&&o.refs[R.id]?o.refs[R.id]:null;var tot=ex?ta(ex):0;var hv=tot>0;
+    var ti=R.ts.map(function(t,i){var val=ex&&ex[i]?ex[i]:0;return'<div class="mtg"><div class="mtl '+cl+'">'+t+'</div><input class="mti'+(val?' has '+cl:'')+'" type="number" min="0" id="mt-'+R.id+'-'+i+'" value="'+(val||'')+'" placeholder="0" oninput="onMT(this,\''+R.id+'\',\''+cl+'\')"></div>';}).join('');
+    return'<div class="mref"><div class="mref-hd" onclick="togRef(\''+R.id+'\')"><div class="mref-lbl"><span class="rdot" style="background:'+R.cl+'"></span>'+R.fl+'</div><div style="display:flex;align-items:center;gap:5px;"><span class="mref-sm '+(hv?'on '+cl:'')+'" id="ms-'+R.id+'">'+(tot||'')+'</span><span class="mref-arr'+(hv?' open':'')+'" id="ma-'+R.id+'">\u25be</span></div></div><div class="mref-bd'+(hv?' open':'')+'" id="mb-'+R.id+'"><div class="mtails">'+ti+'</div></div></div>';
+  }).join('');
+  document.getElementById('om').innerHTML='<div class="mhdr '+hcl+'"><div class="mhtitle">'+(isE?'Modifier':'Nouvelle commande')+'</div><button class="mclose" onclick="closeOM()">\u2715</button></div><div class="mbody"><div class="mrow"><div class="mg"><div class="mlab">N\u00b0 Commande</div><input class="mi mono" id="mc-cmd" value="'+(isE?o.cmd:'')+'" placeholder="1000000XXX"></div><div class="mg"><div class="mlab">Date livraison</div><input type="date" class="mi" id="mc-dt" value="'+(isE?o.dt:'')+'"></div><div class="mg"><div class="mlab">Client</div><input class="mi" id="mc-cl" value="'+(isE?o.cl:'JM Weston')+'"></div></div><div class="msep'+(cat==='semelles'?' g':'')+'">R\u00e9f\u00e9rences et quantit\u00e9s</div>'+refSec+'</div><div class="mfoot"><div class="mhint">Cliquer sur une r\u00e9f\u00e9rence pour saisir.</div><div class="mbtns"><button class="mcancel" onclick="closeOM()">Annuler</button><button class="msave '+(isE?'mod':cl)+'" onclick="saveOM(\''+cat+'\','+(oid||'null')+')">'+(isE?'\u2713 Enregistrer':'+ Cr\u00e9er')+'</button></div></div>';
+  document.getElementById('om-bg').style.display='flex';
+  setTimeout(function(){var e=document.getElementById('mc-cmd');if(e)e.focus();},60);
+}
+function closeOM(){document.getElementById('om-bg').style.display='none';}
+function togRef(rid){var b=document.getElementById('mb-'+rid);var a=document.getElementById('ma-'+rid);if(!b)return;var op=b.classList.contains('open');b.classList.toggle('open',!op);if(a)a.classList.toggle('open',!op);}
+function onMT(el,rid,cl){var v=parseInt(el.value)||0;el.classList.toggle('has',v>0);if(v>0)el.classList.add(cl);else el.classList.remove(cl);var tot=0;TR.concat(SR).filter(function(r){return r.id===rid;}).forEach(function(r){r.ts.forEach(function(_,i){var inp=document.getElementById('mt-'+rid+'-'+i);if(inp)tot+=parseInt(inp.value)||0;});});var ms=document.getElementById('ms-'+rid);if(ms){ms.textContent=tot||'';ms.className='mref-sm'+(tot?' on '+cl:'');}}
+function saveOM(cat,oid){
+  var refs=GRS(cat);var cmd=(document.getElementById('mc-cmd').value||'').trim();var dt=document.getElementById('mc-dt').value;var cl=(document.getElementById('mc-cl').value||'').trim()||'JM Weston';
+  if(!cmd||!dt){toast('N\u00b0 et date requis.');return;}
+  var newR={};var tq=0;
+  refs.forEach(function(R){var q=R.ts.map(function(_,i){var e=document.getElementById('mt-'+R.id+'-'+i);return Math.max(0,parseInt((e||{}).value)||0);});var t=ta(q);if(t>0){newR[R.id]=q;tq+=t;}});
+  if(oid===null&&tq===0){toast('Saisir au moins une quantit\u00e9.');return;}
+  snap(cat);
+  if(oid!==null){var o=D[cat].find(function(x){return x.id===oid;});if(!o){closeOM();return;}o.cmd=cmd;o.dt=dt;o.cl=cl;o.refs=newR;if(tq===0){o.done=true;toast('Sold\u00e9e \u2192 historique','gn');}else toast('Modifi\u00e9e.','gn');}
+  else{var mx=0;D[cat].forEach(function(x){if(x.id>mx)mx=x.id;});D[cat].push({id:mx+1,dt:dt,cmd:cmd,cl:cl,done:false,refs:newR});D[cat].sort(function(a,b){return a.dt.localeCompare(b.dt);});toast('Ajout\u00e9e !','gn');}
+  sv();closeOM();buildCat(cat);renderCat(cat);stats(cat);
+}
+function delO(cat,oid){if(!confirm('Supprimer ?'))return;snap(cat);D[cat]=D[cat].filter(function(o){return o.id!==oid;});sv();buildCat(cat);renderCat(cat);stats(cat);toast('Supprim\u00e9.');}
+function dupO(cat,oid){var o=D[cat].find(function(x){return x.id===oid;});if(!o)return;var r={};Object.keys(o.refs).forEach(function(k){r[k]=o.refs[k].slice();});var mx=0;D[cat].forEach(function(x){if(x.id>mx)mx=x.id;});var no=Object.assign({},o,{id:mx+1,done:false,refs:r,cmd:o.cmd+' (copie)',dt:''});snap(cat);D[cat].push(no);D[cat].sort(function(a,b){return a.dt.localeCompare(b.dt);});sv();buildCat(cat);renderCat(cat);stats(cat);openOM(cat,no.id);toast('Dupliqu\u00e9.');}
+// ===== LIVRAISON =====
+var lvCat=null,lvStep=1,lvSel=[];
+function openLiv(cat){lvCat=cat;lvStep=1;lvSel=[];renderLv();}
+function closeLiv(){document.getElementById('lv-bg').style.display='none';}
+function renderLv(){
+  var cat=lvCat;var hcl=cat==='talons'?'ink':'grn';
+  document.getElementById('lv-bg').style.display='flex';
+  var actO=D[cat].filter(function(o){return !o.done&&Object.keys(o.refs).some(function(r){return ta(o.refs[r])>0;});});actO.sort(function(a,b){return a.dt.localeCompare(b.dt);});
+  var html='';
+  if(lvStep===1){
+    var items=actO.length?actO.map(function(o){var rn=Object.keys(o.refs).filter(function(r){return ta(o.refs[r])>0;}).map(function(r){var R=GR(cat,r);return R?R.lb:r;}).join(', ');var sel=lvSel.indexOf(o.id)>=0;return'<div class="ci'+(sel?' sel':'')+'" onclick="togLv('+o.id+')"><input type="checkbox" '+(sel?'checked':'')+' onclick="event.stopPropagation();togLv('+o.id+')"><span class="cin">'+o.cmd+'</span><span class="cid">'+fd(o.dt)+'</span><span class="cir">'+rn+'</span><span class="cit">'+ot(o)+' p.</span></div>';}).join(''):'<div class="empty">Aucune commande active.</div>';
+    html='<div class="mhdr '+hcl+'"><div class="mhtitle">Livraison '+(cat==='talons'?'Talons':'Semelles')+' <span style="font-size:11px;opacity:.4;">1/2</span></div><button class="mclose" onclick="closeLiv()">\u2715</button></div><div class="mbody"><div class="msep'+(cat==='semelles'?' g':'')+'">Commandes de cet envoi</div><div class="clst">'+items+'</div></div><div class="lvfoot"><div class="lvsum">'+lvSel.length+' s\u00e9lectionn\u00e9e'+(lvSel.length>1?'s':'')+'</div><div class="lvbtns"><button class="mcancel" onclick="closeLiv()">Annuler</button><button class="btn-nx" onclick="lvNext()" '+(lvSel.length===0?'disabled':'')+'>Suivant \u2192</button></div></div>';
+  } else {
+    var selO=D[cat].filter(function(o){return lvSel.indexOf(o.id)>=0;});
+    var blocks=selO.map(function(o){var rbl=Object.keys(o.refs).filter(function(r){return ta(o.refs[r])>0;}).map(function(rid){var R=GR(cat,rid);if(!R)return'';var qr=o.refs[rid];var inp=R.ts.map(function(t,i){var mx=qr[i]||0;return'<div class="lvtg"><div class="lvtl">'+t+'</div><div class="lvmx">/ '+mx+'</div><input class="lvti'+(mx>0?' has':'')+'" type="number" min="0" max="'+mx+'" id="lvi-'+o.id+'-'+rid+'-'+i+'" value="'+mx+'"'+(mx===0?' disabled':'')+' oninput="clmpLv(this,'+mx+');lvSumUpd()"></div>';}).join('');return'<div class="lvref"><div class="lvref-hd"><span class="rdot" style="background:'+R.cl+'"></span><span class="lvref-nm">'+R.fl+'</span></div><div class="lvtls">'+inp+'</div></div>';}).join('');return'<div style="margin-bottom:.9rem;"><div style="font-family:\'DM Mono\',monospace;font-size:12px;font-weight:700;color:#163352;margin-bottom:.35rem;padding:.22rem .6rem;background:#E6EDF5;border-radius:3px;display:inline-block;">'+o.cmd+' \u2014 '+fd(o.dt)+'</div>'+rbl+'</div>';}).join('');
+    html='<div class="mhdr '+hcl+'"><div class="mhtitle">Livraison '+(cat==='talons'?'Talons':'Semelles')+' <span style="font-size:11px;opacity:.4;">2/2</span></div><button class="mclose" onclick="closeLiv()">\u2715</button></div><div class="mbody"><div class="msep'+(cat==='semelles'?' g':'')+'">Quantit\u00e9s livr\u00e9es</div>'+blocks+'</div><div class="lvfoot"><div class="lvsum" id="lvsume">Calcul\u2026</div><div class="lvbtns"><button class="btn-bk" onclick="lvBack()">\u2190 Retour</button><button class="mcancel" onclick="closeLiv()">Annuler</button><button class="btn-ok" onclick="confLv()">\u2713 Confirmer</button></div></div>';
+  }
+  document.getElementById('lv').innerHTML=html;
+  if(lvStep===2)setTimeout(lvSumUpd,50);
+}
+function togLv(oid){var idx=lvSel.indexOf(oid);if(idx>=0)lvSel.splice(idx,1);else lvSel.push(oid);renderLv();}
+function lvNext(){if(lvSel.length===0)return;lvStep=2;renderLv();}
+function lvBack(){lvStep=1;renderLv();}
+function clmpLv(el,mx){var v=parseInt(el.value)||0;if(v<0)el.value=0;if(v>mx)el.value=mx;el.classList.toggle('has',parseInt(el.value)>0);}
+function lvSumUpd(){var tot=0;D[lvCat].filter(function(o){return lvSel.indexOf(o.id)>=0;}).forEach(function(o){Object.keys(o.refs).forEach(function(rid){var R=GR(lvCat,rid);if(!R)return;R.ts.forEach(function(_,i){var e=document.getElementById('lvi-'+o.id+'-'+rid+'-'+i);if(e)tot+=parseInt(e.value)||0;});});});var e=document.getElementById('lvsume');if(e)e.innerHTML='Total : <b>'+tot+' paires</b>';}
+function confLv(){
+  var cat=lvCat;var selO=D[cat].filter(function(o){return lvSel.indexOf(o.id)>=0;});var details=[];var tLiv=0;
+  snap(cat);
+  selO.forEach(function(o){var lines=[];Object.keys(o.refs).filter(function(r){return ta(o.refs[r])>0;}).forEach(function(rid){var R=GR(cat,rid);if(!R)return;var lq=R.ts.map(function(_,i){var e=document.getElementById('lvi-'+o.id+'-'+rid+'-'+i);return Math.max(0,Math.min(o.refs[rid][i]||0,parseInt((e||{}).value)||0));});var lt=ta(lq);if(!lt)return;R.ts.forEach(function(_,i){o.refs[rid][i]=Math.max(0,(o.refs[rid][i]||0)-lq[i]);});tLiv+=lt;lines.push(R.lb+': '+lt);});if(Object.keys(o.refs).every(function(r){return ta(o.refs[r])===0;}))o.done=true;if(lines.length)details.push({cmd:o.cmd,lines:lines});});
+  if(!tLiv){toast('Aucune quantit\u00e9 saisie.');return;}
+  var now=new Date();
+  J.unshift({id:now.getTime(),cat:cat,dt:now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),cmds:selO.map(function(o){return o.cmd;}).join(', '),total:tLiv,details:details});
+  sj();updJCnt();sv();closeLiv();buildCat(cat);renderCat(cat);stats(cat);
+  toast('Livraison enregistr\u00e9e \u2014 '+tLiv+' paires \u2713','gn');
+}
+// ===== REFS MODAL =====
+var rfCat=null;
+function openRefM(cat){
+  rfCat=cat;var cl=cat==='talons'?'k':'g';var hcl=cat==='talons'?'ink':'grn';
+  var BL=cat==='talons'?['cwa','cwa_n','cwb','cwc','cwd_n','cwd_k','cwe_n','cwe_k','cwf','cwg','cwh','esta']:['s_cwa','s_cwb','s_cwbd','s_bbt','s_cwd'];
+  var refs=GRS(cat);
+  var items=refs.map(function(R){var isB=BL.indexOf(R.id)>=0;var act=D[cat].filter(function(o){return !o.done&&o.refs[R.id]&&ta(o.refs[R.id])>0;}).length;var canDel=!isB&&act===0;return'<div class="rmi"><span class="rmi-dot" style="background:'+R.cl+'"></span><span class="rmi-nm">'+R.fl+'</span><span class="rmi-cnt">'+act+' act.</span>'+(canDel?'<button class="btn-del" onclick="delRef(\''+R.id+'\')">Suppr.</button>':act>0?'<button class="btn-del" disabled>En cours</button>':'<button class="btn-del" disabled>Standard</button>')+'</div>';}).join('');
+  document.getElementById('rf-modal').innerHTML='<div class="mhdr '+hcl+'"><div class="mhtitle">R\u00e9f\u00e9rences \u2014 '+(cat==='talons'?'Talons':'Semelles')+'</div><button class="mclose" onclick="closeRefM()">\u2715</button></div><div class="mbody"><div style="max-height:290px;overflow-y:auto;margin-bottom:.9rem;">'+items+'</div><div class="msep'+(cat==='semelles'?' g':'')+'">Nouvelle r\u00e9f\u00e9rence</div><div class="mrow"><div class="mg"><div class="mlab">ID</div><input class="mi mono" id="nr-id" placeholder="cwx"></div><div class="mg"><div class="mlab">Libell\u00e9 onglet</div><input class="mi" id="nr-lb" placeholder="CWX"></div></div><div class="mrow"><div class="mg" style="flex:2"><div class="mlab">Libell\u00e9 complet</div><input class="mi" id="nr-fl" placeholder="Bloc Talon CWX"></div><div class="mg" style="flex:0 0 95px"><div class="mlab">Couleur</div><input type="color" class="mi" id="nr-cl" value="#2A4A6B" style="padding:2px 4px;height:37px;cursor:pointer;"></div></div></div><div class="mfoot"><div></div><div class="mbtns"><button class="mcancel" onclick="closeRefM()">Fermer</button><button class="msave '+cl+'" onclick="saveNewRef()">+ Ajouter</button></div></div>';
+  document.getElementById('rf-bg').style.display='flex';
+}
+function closeRefM(){document.getElementById('rf-bg').style.display='none';}
+function saveNewRef(){
+  var cat=rfCat;var cl=cat==='talons'?'k':'g';
+  var id=(document.getElementById('nr-id').value||'').trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+  var lb=(document.getElementById('nr-lb').value||'').trim();
+  var fl=(document.getElementById('nr-fl').value||'').trim()||lb;
+  var color=document.getElementById('nr-cl').value||'#2A4A6B';
+  if(!id||!lb){toast('ID et libell\u00e9 requis.');return;}
+  if(TR.concat(SR).find(function(r){return r.id===id;})){toast('Cet ID existe d\u00e9j\u00e0.');return;}
+  var ts=cat==='talons'?['T1','T2','T3','T4','T5','T6']:['T35','T36','T37','T38','T39','T40','T41','T42','T43','T44','T45','T46'];
+  var nr={id:id,lb:lb,fl:fl,cl:color,ts:ts};
+  if(cat==='talons')TR.push(nr);else SR.push(nr);
+  closeRefM();curT[cat]=id;buildCat(cat);renderCat(cat);stats(cat);toast('"'+lb+'" ajout\u00e9e !','gn');
+}
+function delRef(rid){
+  var cat=rfCat;var act=D[cat].filter(function(o){return !o.done&&o.refs[rid]&&ta(o.refs[rid])>0;}).length;
+  if(act>0){toast('Impossible : commandes actives.');return;}
+  if(!confirm('Supprimer ?'))return;
+  var arr=cat==='talons'?TR:SR;arr.splice(arr.findIndex(function(r){return r.id===rid;}),1);
+  closeRefM();if(curT[cat]===rid)curT[cat]=(cat==='talons'?TR:SR)[0].id;
+  buildCat(cat);renderCat(cat);stats(cat);toast('Supprim\u00e9e.','gn');
+}
+// ===== REPETTO =====
+function repShowTab(tab,el){
+  document.querySelectorAll('#tabs-rep .tab').forEach(function(t){t.classList.remove('on','red');});
+  if(el){el.classList.add('on','red');}
+  repT=tab;repRender();repStats();
+}
+function repSetF(f){repF=f;['active','all','late'].forEach(function(x){var e=document.getElementById('fb-rep-'+x);if(e)e.className='fb'+(x===f?' on red':'');});repRender();}
+function repScrollForm(){var t=repT==='synth'?'noir':repT;repShowTab(t,document.getElementById('rt-'+t));setTimeout(function(){var e=document.getElementById('rep-content');if(e)window.scrollTo(0,e.offsetTop);},80);}
+function repRender(){
+  if(repT==='synth'){repRnSy();return;}
+  var c=repT;var cat=RC.find(function(x){return x.id===c;});
+  var el=document.getElementById('rep-content');if(!el)return;
+  var filt=rD[c].filter(function(o){if(repF==='active')return o.rest.some(function(r){return r>0;});if(repF==='late')return o.rest.some(function(r){return r>0;})&&o.dt<TODAY;return true;});
+  var done=rD[c].filter(function(o){return o.rest.every(function(r){return r===0;})&&o.orig.some(function(x){return x>0;});});
+  var szInp=RS.map(function(s,i){return'<div class="rfg" style="flex:0 0 60px;"><div class="rfl">'+s+'</div><input type="number" class="rfi sz" id="rf-'+c+'-'+RI[i]+'" min="0" placeholder="0"></div>';}).join('');
+  var fHtml='<div class="rep-form"><div class="rep-ftitle">+ Nouvelle commande \u2014 '+cat.lb+'</div><div class="rep-fr"><div class="rfg"><div class="rfl">Date liv.</div><input type="date" class="rfi" id="rf-'+c+'-dt" value="'+TODAY+'"></div><div class="rfg"><div class="rfl">Client</div><input class="rfi" id="rf-'+c+'-cl" value="Repetto"></div><div class="rfg"><div class="rfl">N\u00b0 Cmd</div><input class="rfi mono" id="rf-'+c+'-cmd" placeholder="N\u00b0"></div></div><div class="rep-fr">'+szInp+'</div><button class="rep-add" onclick="repAdd(\''+c+'\')">+ Ajouter</button></div>';
+  var pszInp=RS.map(function(s,i){return'<div style="display:flex;flex-direction:column;gap:2px;align-items:center;"><div class="rpi-l">'+s+'</div><input type="number" class="rpi" id="rp-'+c+'-'+RI[i]+'" min="0" placeholder="0"></div>';}).join('');
+  var pHtml='<div class="rep-prod"><div class="rplbl">\uD83D\uDCE6 Production</div>'+pszInp+'<button class="rep-pbtn" onclick="repProd(\''+c+'\')">Valider</button></div>';
+  var bHtml=!filt.length?'<div class="empty">Aucune commande.</div>':'<div class="owrap">'+filt.map(function(o){return repBlk(o,c,cat,false);}).join('')+'</div>';
+  var p=rpx(c);var hca=p?done.reduce(function(a,o){return a+o.orig.reduce(function(x,y){return x+y;},0);},0)*p:0;
+  var hHtml='<div class="hst"><div class="hsthd"><span class="hstt">Historique</span><span class="hstn">'+done.length+'</span><span class="hca r">'+(hca?'\uD83D\uDCB0 '+fmt(hca):'\u2014')+'</span></div>'+(done.length?'<div class="owrap hist-blk">'+done.map(function(o){return repBlk(o,c,cat,true);}).join('')+'</div>':'<div class="empty">Aucune termin\u00e9e.</div>')+'</div>';
+  el.innerHTML=fHtml+pHtml+bHtml+hHtml;
+}
+function repBlk(o,c,cat,isH){
+  var tot=o.orig.reduce(function(a,b){return a+b;},0);var tD=o.done.reduce(function(a,b){return a+b;},0);var tR=tot-tD;
+  var p=rpx(c);var ca=p?tot*p:0;var late=!isH&&o.rest.some(function(r){return r>0;})&&o.dt<TODAY;
+  var nk='rn_'+c+'_'+o.id;var nv=((N||{})[nk]||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+  var h='<div class="ob"><div class="oh red"><div class="ohl"><span class="ocmd">'+(o.cmd||'\u2014')+'</span><span class="otag'+(late?' late':'')+'">'+(late?'\u26A0 ':'')+fd(o.dt)+'</span><span class="otag">'+o.cl+'</span>'+(isH?'':function(){var pct=tot>0?Math.round(tD/tot*100):0;return'<div style="width:60px;height:4px;background:#FFD0D5;border-radius:2px;overflow:hidden;margin-left:.5rem;"><div style="width:'+pct+'%;height:100%;background:#C41E3A;"></div></div>';}())+'</div><div class="ohr">'+(p&&ca?'<span class="oca">'+fmt(ca)+'</span>':'')+(isH?'<span class="hdone">\u2713 Termin\u00e9</span>':'<button class="ba" onclick="repEdit(\''+c+'\','+o.id+')">&#9998;</button><button class="bd" onclick="repDel(\''+c+'\','+o.id+')">&#10005;</button>')+'</div></div>';
+  if(!isH){h+='<div class="onote red"><span>\uD83D\uDCDD</span><input placeholder="Note\u2026" value="'+nv+'" onchange="N[\''+nk+'\']=this.value;sn()"></div>';}
+  h+='<div class="rbar red"><span class="rdot" style="background:'+cat.cl+'"></span><span class="rnm">'+cat.lb+'</span></div>';
+  var thr=RS.map(function(s,i){return'<th class="tr'+(o.orig[i]>0?'':' z')+'">'+s+'</th>';}).join('');
+  h+='<div class="tw"><table class="t-red"><thead><tr><th class="thl">R\u00e9f\u00e9rence</th>'+thr+(isH?'<th class="tot">Total</th>':'<th class="tot">Command\u00e9</th><th class="tr">Effectu\u00e9</th><th class="tr">Restant</th>')+(p?'<th class="tca">CA</th>':'')+'</tr></thead><tbody><tr><td class="tdl"><span class="tlib">'+cat.lb+'</span></td>';
+  RS.forEach(function(_,i){var v=o.orig[i];h+='<td><span class="tq '+(v?'r':'z')+'">'+(v||'\u2014')+'</span></td>';});
+  h+='<td><span class="ttot" style="color:#8B0000">'+tot+'</span></td>';
+  if(!isH)h+='<td><span style="font-family:\'DM Mono\',monospace;font-size:15px;font-weight:700;color:#264D38">'+tD+'</span></td><td><span style="font-family:\'DM Mono\',monospace;font-size:15px;font-weight:700;color:#C41E3A">'+tR+'</span></td>';
+  if(p)h+='<td class="tca r">'+fmt(ca)+'</td>';
+  h+='</tr></tbody><tfoot><tr><td class="tfl">Total</td>';
+  RS.forEach(function(_,i){var v=o.orig[i];h+='<td class="ftq '+(v?'r':'z')+'">'+v+'</td>';});
+  h+='<td class="ftot" style="color:#8B0000">'+tot+'</td>';
+  if(!isH)h+='<td class="ftot" style="color:#264D38">'+tD+'</td><td class="ftot" style="color:#C41E3A">'+tR+'</td>';
+  if(p)h+='<td class="ftca r">'+fmt(ca)+'</td>';
+  h+='</tr></tfoot></table></div></div>';
+  return h;
+}
+function repAdd(c){
+  var dt=document.getElementById('rf-'+c+'-dt').value;var cl=(document.getElementById('rf-'+c+'-cl').value||'').trim()||'Repetto';var cmd=(document.getElementById('rf-'+c+'-cmd').value||'').trim();
+  var qtys=RI.map(function(s){return Math.max(0,parseInt((document.getElementById('rf-'+c+'-'+s)||{}).value)||0);});
+  if(!dt){toast('Date requise.');return;}if(qtys.every(function(q){return q===0;})){toast('Saisir au moins une quantit\u00e9.');return;}
+  snap('rep');var mx=repNI[c]||100;
+  rD[c].push({id:mx,dt:dt,cl:cl,cmd:cmd,orig:qtys.slice(),rest:qtys.slice(),done:qtys.map(function(){return 0;})});
+  repNI[c]=mx+1;rD[c].sort(function(a,b){return a.dt.localeCompare(b.dt);});
+  rvs();repRender();repStats();toast('Ajout\u00e9e !','gn');
+}
+function repProd(c){
+  var pq=RI.map(function(s){return Math.max(0,parseInt((document.getElementById('rp-'+c+'-'+s)||{}).value)||0);});
+  if(pq.every(function(q){return q===0;})){toast('Saisir au moins une quantit\u00e9.');return;}
+  snap('rep');var orders=rD[c].filter(function(o){return o.rest.some(function(r){return r>0;});});var rem=pq.slice();
+  for(var i=0;i<RS.length;i++){var td=rem[i];if(!td)continue;for(var j=0;j<orders.length;j++){if(!td)break;var cd=Math.min(orders[j].rest[i],td);if(!cd)continue;orders[j].rest[i]-=cd;orders[j].done[i]+=cd;td-=cd;}if(td)toast('Attention: '+td+' p. T'+RS[i]+' en trop.');}
+  rvs();repRender();repStats();toast('Production enregistr\u00e9e !','gn');
+}
+function repEdit(c,id){
+  var o=rD[c].find(function(x){return x.id===id;});if(!o)return;
+  var modal=document.createElement('div');modal.className='mbg';modal.id='re-bg';
+  var si=RS.map(function(s,i){return'<div class="mg" style="flex:0 0 78px;"><div class="mlab">'+s+'</div><input class="mi mono" type="number" id="re-'+i+'" value="'+o.orig[i]+'" min="0"></div>';}).join('');
+  modal.innerHTML='<div class="modal" style="max-width:540px;"><div class="mhdr red"><div class="mhtitle">Modifier \u2014 '+(o.cmd||'commande')+'</div><button class="mclose" onclick="document.getElementById(\'re-bg\').remove()">\u2715</button></div><div class="mbody"><div class="mrow"><div class="mg"><div class="mlab">Date</div><input class="mi" type="date" id="re-dt" value="'+o.dt+'"></div><div class="mg"><div class="mlab">Client</div><input class="mi" id="re-cl" value="'+o.cl+'"></div><div class="mg"><div class="mlab">N\u00b0 Cmd</div><input class="mi mono" id="re-cmd" value="'+(o.cmd||'')+'"></div></div><div class="mrow">'+si+'</div></div><div class="mfoot"><div></div><div class="mbtns"><button class="mcancel" onclick="document.getElementById(\'re-bg\').remove()">Annuler</button><button class="msave" style="background:#8B0000;" onclick="repSvEdit(\''+c+'\','+id+')">\u2713 Enregistrer</button></div></div></div>';
+  document.body.appendChild(modal);modal.addEventListener('click',function(e){if(e.target===modal)modal.remove();});
+}
+function repSvEdit(c,id){
+  var o=rD[c].find(function(x){return x.id===id;});if(!o)return;
+  snap('rep');o.dt=document.getElementById('re-dt').value;o.cl=document.getElementById('re-cl').value||'Repetto';o.cmd=document.getElementById('re-cmd').value;
+  var no=RS.map(function(_,i){return Math.max(0,parseInt(document.getElementById('re-'+i).value)||0);});
+  for(var i=0;i<no.length;i++){var diff=no[i]-o.orig[i];o.rest[i]=Math.max(0,o.rest[i]+diff);}
+  o.orig=no;rD[c].sort(function(a,b){return a.dt.localeCompare(b.dt);});
+  rvs();document.getElementById('re-bg').remove();repRender();repStats();toast('Modifi\u00e9.','gn');
+}
+function repDel(c,id){if(!confirm('Supprimer ?'))return;snap('rep');rD[c]=rD[c].filter(function(o){return o.id!==id;});rvs();repRender();repStats();toast('Supprim\u00e9.');}
+function repRnSy(){
+  var el=document.getElementById('rep-content');if(!el)return;
+  var cards=RC.map(function(cat){var c=cat.id;var p=rpx(c);var act=rD[c].filter(function(o){return o.rest.some(function(r){return r>0;});});var don=rD[c].filter(function(o){return o.rest.every(function(r){return r===0;})&&o.orig.some(function(x){return x>0;});});var tA=act.reduce(function(a,o){return a+o.orig.reduce(function(x,y){return x+y;},0);},0);var cA=p?tA*p:0;return'<div class="scard"><div class="shd"><div class="sdot" style="background:'+cat.cl+'"></div><div class="stitle">'+cat.lb+'</div></div><div class="sr"><span class="sl">Actives</span><span class="sv" style="color:#8B0000">'+act.length+'</span></div><div class="sr"><span class="sl">Paires</span><span class="sv">'+tA+'</span></div><div class="sr"><span class="sl">Termin\u00e9es</span><span class="sv" style="color:#264D38">'+don.length+'</span></div>'+(p&&cA?'<div class="sr"><span class="sl">CA</span><span class="sv" style="color:#8B0000">'+fmt(cA)+'</span></div>':'')+'</div>';}).join('');
+  el.innerHTML='<div style="background:#fff;border:1px solid #D5CFC2;border-radius:5px;padding:1rem 1.3rem;margin-bottom:1rem;font-family:\'Cormorant Garamond\',serif;font-size:20px;font-weight:500;font-style:italic;">Repetto \u2014 T10</div><div class="sgrid">'+cards+'</div>';
+}
+function repStats(){
+  var all=rD.noir.concat(rD.cuir).concat(rD.marron);
+  var gO=all.reduce(function(a,o){return a+o.orig.reduce(function(x,y){return x+y;},0);},0);
+  var gD=all.reduce(function(a,o){return a+o.done.reduce(function(x,y){return x+y;},0);},0);
+  function se(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  se('st-rep-tot',gO);se('st-rep-don',gD);se('st-rep-rest',gO-gD);se('st-rep-nb',all.length);
+  var caA=RC.reduce(function(a,cat){var p=rpx(cat.id);if(!p)return a;return a+rD[cat.id].filter(function(o){return o.rest.some(function(r){return r>0;});}).reduce(function(b,o){return b+o.orig.reduce(function(x,y){return x+y;},0);},0)*p;},0);
+  se('st-rep-ca',caA>0?fmt(caA):'\u2014');
+  var pf=document.getElementById('pf-repetto');if(pf)pf.style.width=(gO>0?Math.round(gD/gO*100):0)+'%';
+  var rn=all.filter(function(o){return o.rest.some(function(r){return r>0;});}).length;var re=document.getElementById('ac-repetto');if(re)re.textContent=rn+' cmd active'+(rn!==1?'s':'');
+}
+// ===== JOURNAL =====
+function toggleJ(){var d=document.getElementById('jdrw');d.classList.toggle('open');if(d.classList.contains('open'))renderJ();}
+function updJCnt(){var e=document.getElementById('jcnt');if(e)e.textContent=J.length;}
+function renderJ(){var e=document.getElementById('jcontent');if(!e)return;if(!J.length){e.innerHTML='<div class="empty" style="font-size:13px;">Aucune livraison.</div>';return;}e.innerHTML=J.map(function(j){var det=j.details.map(function(d){return'<div>\u00b7 <b>'+d.cmd+'</b> : '+d.lines.join(' | ')+'</div>';}).join('');return'<div class="jitem"><div class="jitem-hd"><span class="jdt">'+j.dt+'</span><span class="jcm">'+j.cmds+'</span><span class="jtot">'+j.total+' p.</span></div><div class="jdet">'+det+'</div></div>';}).join('');}
+// ===== EXPORT / IMPORT / RESET =====
+function doExport(){
+  var snap=JSON.stringify({D:D,P:P,J:J,N:N,rD:rD,rP:rP});
+  var req=new XMLHttpRequest();req.open('GET',window.location.href,false);
+  try{req.send();}catch(e){
+    var b=new Blob([JSON.stringify({v:1,D:D,P:P,J:J,N:N,rD:rD,rP:rP},null,2)],{type:'application/json'});
+    var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='Detec26_'+TODAY+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);toast('Export\u00e9 en JSON.','gn');return;
+  }
+  var src=req.responseText;
+  var mrk='// =EXPORT=';
+  var inj='var _x='+snap+';D=_x.D;P=_x.P;J=_x.J||[];N=_x.N||{};rD=_x.rD;rP=_x.rP;';
+  src=src.replace(mrk,inj+'\n'+mrk);
+  var b=new Blob([src],{type:'text/html;charset=utf-8'});var u=URL.createObjectURL(b);var a=document.createElement('a');
+  a.href=u;a.download='Detec26_'+TODAY+'.html';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);
+  toast('Fichier HTML export\u00e9 \u2713','gn');
+}
+function doImport(ev){var f=ev.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(e){try{var imp=JSON.parse(e.target.result);if(!imp.D&&!imp.data){toast('Fichier invalide.');return;}if(!confirm('Remplacer les donn\u00e9es ?'))return;D=imp.D||imp.data;if(imp.P)P=imp.P;if(imp.J)J=imp.J;if(imp.N)N=imp.N;if(imp.rD)rD=imp.rD;if(imp.rP)rP=imp.rP;sv();spx();sj();sn();rvs();updAcc();updJCnt();toast('Import\u00e9 \u2713','gn');}catch(err){toast('Fichier corrompu.');}ev.target.value='';};r.readAsText(f);}
+function doReset(){if(!confirm('R\u00e9initialiser Weston ?'))return;D={talons:dc(IT),semelles:dc(IS)};P={talons:{},semelles:{}};sv();spx();updAcc();toast('R\u00e9initialis\u00e9.');}
+function doPrint(cat){var R=curT[cat]&&curT[cat]!=='sy'?GR(cat,curT[cat]):null;if(!R){toast('S\u00e9lectionner un onglet pour imprimer.');return;}var filt=getFilt(cat,R.id);var p=px(cat,R.id);var ds=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});var w=window.open('','_blank');var tables=filt.map(function(o){var qtys=o.refs[R.id]||[];while(qtys.length<R.ts.length)qtys.push(0);var tot=ta(qtys);var ca=p?tot*p:0;var late=o.dt<TODAY;var ths=R.ts.map(function(t){return'<th>'+t+'</th>';}).join('');return'<div style="margin-bottom:11px;page-break-inside:avoid;"><div style="background:#0D0B09;color:#fff;padding:5px 9px;font-size:11px;font-weight:600;"><b>'+o.cmd+'</b> \u00b7 '+(late?'\u26A0 ':'')+fd(o.dt)+' \u00b7 '+o.cl+(p?' \u00b7 CA: '+fmt(ca):'')+'</div><table style="width:100%;border-collapse:collapse;"><thead><tr><th style="text-align:left;padding:5px 7px;font-size:9px;font-weight:700;text-transform:uppercase;border:1px solid #ccc;background:#f5f5f5;">R\u00e9f\u00e9rence</th>'+ths+'<th style="padding:5px 7px;font-size:9px;font-weight:700;text-transform:uppercase;border:1px solid #ccc;background:#f5f5f5;">Total</th>'+(p?'<th style="padding:5px 7px;font-size:9px;font-weight:700;text-transform:uppercase;border:1px solid #ccc;background:#f5f5f5;">CA</th>':'')+'</tr></thead><tbody><tr><td style="padding:7px;border:1px solid #ddd;text-align:left;font-weight:600;">'+R.fl+'</td>'+qtys.map(function(v){return'<td style="padding:7px;border:1px solid #ddd;text-align:center;">'+(v||'\u2014')+'</td>';}).join('')+'<td style="padding:7px;border:1px solid #ddd;text-align:center;font-weight:700;">'+tot+'</td>'+(p?'<td style="padding:7px;border:1px solid #ddd;text-align:center;">'+fmt(ca)+'</td>':'')+'</tr></tbody><tfoot><tr><td style="padding:6px 7px;border:1px solid #ddd;background:#f0f0f0;font-weight:700;border-top:2px solid #999;font-size:9px;text-transform:uppercase;">Total</td>'+qtys.map(function(v){return'<td style="padding:6px 7px;border:1px solid #ddd;background:#f0f0f0;font-weight:700;border-top:2px solid #999;text-align:center;">'+v+'</td>';}).join('')+'<td style="padding:6px 7px;border:1px solid #ddd;background:#f0f0f0;font-weight:800;border-top:2px solid #999;text-align:center;">'+tot+'</td>'+(p?'<td style="padding:6px 7px;border:1px solid #ddd;background:#f0f0f0;font-weight:700;border-top:2px solid #999;text-align:center;">'+fmt(ca)+'</td>':'')+'</tr></tfoot></table></div>';}).join('');w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Detec 26</title><style>body{font-family:Georgia,serif;font-size:12px;padding:.7cm;}@page{size:A4 landscape;margin:.7cm;}</style></head><body><h2 style="font-size:14px;margin:0 0 4px;font-family:Georgia,serif;">'+R.fl+' \u00b7 Detec 26 \u00b7 '+ds+'</h2><hr style="margin-bottom:7px;">'+tables+'<scri'+'pt>window.onload=function(){window.print();window.close();};<'+'/script></body></html>');w.document.close();}
+// =EXPORT=
+// ===== INIT =====
+document.getElementById('adate').textContent=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+updAcc();
+updJCnt();
+</script>
+</body>
+</html>
